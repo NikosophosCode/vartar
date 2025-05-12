@@ -472,7 +472,7 @@ function mapaPersonaje() {
 }
   
 }
-//funcion para enviar al servidor la posicion actual del personaje
+//función para enviar al servidor la posicion actual del personaje
 function actualizarPosicion(x, y) {
     fetch(`http://localhost:3000/vartar/${idJugador}/posicion`, {
         method:"post",
