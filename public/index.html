@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vartar</title>
+    <link rel="stylesheet" href="./stylesVartar.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    <div class="video-fondo">
+        <video autoplay muted loop playsinline>
+            <source src="./assest/fondo.mp4" type="video/mp4">
+        </video>
+    </div>
+    <section id="titulos-iniciales">
+            <h1 id="titulo">¡VARTAR!</h1>
+            <h2 id="subtituloUno">Elige a tu personaje</h2>
+    </section>
+   
+    <section id="seleccionar-personaje">
+            <!-- Inyeccion de datos desde el JS  -->
+    </section>
+        <div id="boton-personaje-jugador">
+            <button id="boton-personajeJ">Seleccionar</button>
+        </div>
+    <section id="personajes-seleccionados">
+            
+            <h1 id="titulo">¡VARTAR!</h1>
+            
+            <h2 id="subtituloDos">Elige tu poder</h2>
+                
+            <div id="apartado-botones-poderes">
+            </div>
+    </section>
+    <section id="resultado">
+       <div id="mensaje-final"></div>
+    </section>
+    <section id="espera-jugadores">
+            <h2>Esperando a los demás jugadores 😁...</h2>
+    </section>
+    <section id="ver-mapa">
+        <h2 id="titulo-mapa">¡Recorre el mapa con tu personaje!</h2>
+        <canvas id="mapa"></canvas>
+        <section id="botones-desplazamiento">
+            <button id="arriba" class="flechas">↑</button>
+            <div>
+                <button id="izquierda" class="flechas">←</button>
+                <button id="abajo" class="flechas">↓</button>
+                <button id="derecha" class="flechas">→</button>
+           </div> 
+        </section>
+       
+    </section>
+    <h2 id="subtituloTres">Personajes seleccionados</h2>
+    
+    <div id="poderes-vidas">
+        <div>
+            <p id="vidas-jugador">0</p>
+            <div id="personaje-jugador" class="imagen-jugadores"></div>
+            <div id="poder-lanzado-jugador"></div>
+        </div>
+        <div>
+            <p id="vidas-enemigo">0</p>
+            <div id="personaje-enemigo" class="imagen-jugadores"></div>
+            <div id= "poder-lanzado-enemigo"></div>
+        </div>
+    </div>
+    <section id="fin-juego">
+        <button id="reiniciar">REINICIAR</button>
+        <button id="jeje">Irse a la verga</button>
+    </section>
+    <script defer src="./js/vartar.js"></script>
+</body>
+</html>
+
