@@ -26,7 +26,7 @@ let idJugador = null
 let idEnemigo = null
 let enemigosServidor = []
 let backgroundMap = new Image()
-backgroundMap.src = "./assest/mapa.png"
+backgroundMap.src = "./assets/mapa.jpg"
 
 
 const salaEspera = document.getElementById("espera-jugadores")
@@ -113,34 +113,24 @@ class Personajes {
             )
     }
 }
-// const mapaDePersonajes = {
-//     sinji: () => new Personajes('sinji', './assest/sinji.png', './assest/sinjimini.png', '6'),
-//     kiira: () => new Personajes('kiira', './assest/kiira.png', './assest/kiiramini.png', '6'),
-//     kimo: () => new Personajes('kimo', './assest/kimo.png', './assest/kimomini.png', '6'),
-//     vera: () => new Personajes('vera', './assest/vera.png', './assest/veramini.png', '6'),
-//     narobi: () => new Personajes('narobi', './assest/narobi.png', './assest/narobomini.png', '6'),
-//     nutso: () => new Personajes('nutso', './assest/nutso.png', './assest/nutsomini.png', '6'),
-//     limbre: () => new Personajes('limbre', './assest/limbre.png', './assest/limbremini.png', '6'),
-//     iroki: () => new Personajes('iroki', './assest/iroki.png', './assest/irokimini.png', '6')
-// }
 
-let sinji = new Personajes('sinji', './assest/sinji.png', './assest/sinjimini.png', '6',)
-let kiira = new Personajes('kiira', './assest/kiira.png', './assest/kiiramini.png', '6',)
-let kimo = new Personajes('kimo', './assest/kimo.png', './assest/kimomini.png', '6',)
-let vera = new Personajes('vera', './assest/vera.png', './assest/veramini.png', '6',)
-let narobi = new Personajes('narobi', './assest/narobi.png','./assest/narobimini.png', '6',)
-let nutso = new Personajes('nutso', './assest/nutso.png', './assest/nutsomini.png', '6',)
-let limbre = new Personajes('limbre', './assest/limbre.png', './assest/limbremini.png', '6',)
-let iroki = new Personajes('iroki', './assest/iroki.png', './assest/irokimini.png', '6',)
+let sinji = new Personajes('sinji', './assets/sinji.jpg', './assets/sinjimini.webp', '6',)
+let kiira = new Personajes('kiira', './assets/kiira.jpg', './assets/kiiramini.webp', '6',)
+let kimo = new Personajes('kimo', './assets/kimo.jpg', './assets/kimomini.webp', '6',)
+let vera = new Personajes('vera', './assets/vera.jpg', './assets/veramini.webp', '6',)
+let narobi = new Personajes('narobi', './assets/narobi.jpg','./assets/narobimini.webp', '6',)
+let nutso = new Personajes('nutso', './assets/nutso.jpg', './assets/nutsomini.webp', '6',)
+let limbre = new Personajes('limbre', './assets/limbre.jpg', './assets/limbremini.webp', '6',)
+let iroki = new Personajes('iroki', './assets/iroki.jpg', './assets/irokimini.webp', '6',)
 
-// let sinjiEnemigo = new Personajes('sinji', './assest/sinji.png', './assest/sinjimini.png', '6',)
-// let kiiraEnemigo = new Personajes('kiira', './assest/kiira.png', './assest/kiiramini.png', '6',)
-// let kimoEnemigo = new Personajes('kimo', './assest/kimo.png', './assest/kimomini.png', '6',)
-// let veraEnemigo = new Personajes('vera', './assest/vera.png', './assest/veramini.png', '6',)
-// let narobiEnemigo = new Personajes('narobi', './assest/narobi.png','./assest/narobimini.png', '6',)
-// let nutsoEnemigo = new Personajes('nutso', './assest/nutso.png', './assest/nutsomini.png', '6',)
-// let limbreEnemigo = new Personajes('limbre', './assest/limbre.png', './assest/limbremini.png', '6',)
-// let irokiEnemigo = new Personajes('iroki', './assest/iroki.png', './assest/irokimini.png', '6',)
+// let sinjiEnemigo = new Personajes('sinji', './assets/sinji.png', './assets/sinjimini.png', '6',)
+// let kiiraEnemigo = new Personajes('kiira', './assets/kiira.png', './assets/kiiramini.png', '6',)
+// let kimoEnemigo = new Personajes('kimo', './assets/kimo.png', './assets/kimomini.png', '6',)
+// let veraEnemigo = new Personajes('vera', './assets/vera.png', './assets/veramini.png', '6',)
+// let narobiEnemigo = new Personajes('narobi', './assets/narobi.png','./assets/narobimini.png', '6',)
+// let nutsoEnemigo = new Personajes('nutso', './assets/nutso.png', './assets/nutsomini.png', '6',)
+// let limbreEnemigo = new Personajes('limbre', './assets/limbre.png', './assets/limbremini.png', '6',)
+// let irokiEnemigo = new Personajes('iroki', './assets/iroki.png', './assets/irokimini.png', '6',)
 sinji.poderes.push(
     { nombre: "TIERRA 🌎", id:"TIERRA" },
     { nombre: "TIERRA 🌎", id:"TIERRA" },
@@ -237,7 +227,7 @@ function unirseAlServidor() {
             }
         }) 
 }
-// funcion para boton especial xd, ejecucion de variables 
+// función para boton especial xd, ejecución de variables 
 function irseVerga() {
     alert("Ah bueno, chao")
     sectionPersonajeJ.style.display = "none" 
@@ -248,7 +238,7 @@ function irseVerga() {
     cajaPoderesJugadores.style.display = "none"
     tercerTitulo.style.display = "none"
 }
-//funcion seleccionar personaje jugador
+//función seleccionar personaje jugador
 async function seleccionarPersonajeJ() {
     let img = document.createElement("img")
     img.width = 140
@@ -290,7 +280,7 @@ function enviarPersonaje(personajeJugador) {
 function aleatorio(min, max) {
     return Math.floor( Math.random() * (max - min + 1) + min)
 }
-// funcion para obtener los poderes del personaje seleccionado 
+// función para obtener los poderes del personaje seleccionado 
 function tomarPoderJugador(personajeJugador) {
     let poderesElegidos 
     for (let i = 0; i < nuevosPersonajes.length; i++) {
@@ -300,7 +290,7 @@ function tomarPoderJugador(personajeJugador) {
     }
     ejecutarPoderes(poderesElegidos)
 }
-// funcion para mostrar los poderes en el HTML 
+// función para mostrar los poderes en el HTML 
 function ejecutarPoderes(poderesElegidos) {
     poderesElegidos.forEach((poder) => {
         todosLosPoderes = `
@@ -315,7 +305,7 @@ function ejecutarPoderes(poderesElegidos) {
 
     todosLosBotones = document.querySelectorAll(".botonPoderes")
 }
-// funcion eleccion dinamica de poderes      
+// función elección dinámica de poderes      
 function secuenciaPoderes() {
     todosLosBotones.forEach((boton) => {
         boton.addEventListener("click", (e) => {
@@ -362,12 +352,12 @@ function secuenciaPoderes() {
 //     imgEnemigo.width = 140
 //     imgEnemigo.height = 120
 //     imgEnemigo.style.borderRadius = "16px"
-//     spanPersonajeE.appendChild(imgEnemigo)
+//     spanPersonajeE.appendChild(imgEnemigo)   
 //     poderesDeEnemigo = enemigo.poderes
     
     
 // }  
-     //Funcion para enviar al servidor los ataques seleccionados
+     //Función para enviar al servidor los ataques seleccionados
 function enviarAtaquesServidor() {
         fetch(`http://localhost:3000/vartar/${idJugador}/poderes`, {
             method:"post",
@@ -393,7 +383,7 @@ function obtenerAtaques() {
             }
         })    
 }
-  //Funcion para modificar el DOOM mediante createElement y appenChild
+  //Función para modificar el DOOM mediante createElement y appendChild
 function mensajeAtaque() {
         
         let parrafoPoderEnemigo = document.createElement("p")
@@ -404,7 +394,7 @@ function mensajeAtaque() {
         poderLanzadoEnemigo.appendChild(parrafoPoderEnemigo) 
 }
        
-    //Funcion para dar resultado en combinatoria de poderes
+    //Función para dar resultado en combinatoria de poderes
 function combinacionPoderes() {
         clearInterval(intervalo)
         for (let index = 0; index < poderJugador.length; index++) {
@@ -493,21 +483,21 @@ function actualizarPosicion(x, y) {
                     let personajeEnemigo = null
                     const enemigoNombre = enemigo.personaje.nombre || ""
                     if (enemigoNombre == 'sinji') {
-                        personajeEnemigo = new Personajes('sinji', './assest/sinji.png', './assest/sinjimini.png', '6', enemigo.id)
+                        personajeEnemigo = new Personajes('sinji', './assets/sinji.png', './assets/sinjimini.png', '6', enemigo.id)
                     } else if (enemigoNombre == 'kiira') {
-                        personajeEnemigo = new Personajes('kiira', './assest/kiira.png', './assest/kiiramini.png', '6', enemigo.id)
+                        personajeEnemigo = new Personajes('kiira', './assets/kiira.png', './assets/kiiramini.png', '6', enemigo.id)
                     } else if (enemigoNombre == 'kimo') {
-                    personajeEnemigo = new Personajes('kimo', './assest/kimo.png', './assest/kimomini.png', '6', enemigo.id)
+                    personajeEnemigo = new Personajes('kimo', './assets/kimo.png', './assets/kimomini.png', '6', enemigo.id)
                     }  else if (enemigoNombre == 'vera') {
-                    personajeEnemigo = new Personajes('vera', './assest/vera.png', './assest/veramini.png', '6', enemigo.id)
+                    personajeEnemigo = new Personajes('vera', './assets/vera.png', './assets/veramini.png', '6', enemigo.id)
                     }  else if (enemigoNombre == 'narobi') {
-                    personajeEnemigo = new Personajes('narobi', './assest/narobi.png','./assest/narobimini.png', '6', enemigo.id)
+                    personajeEnemigo = new Personajes('narobi', './assets/narobi.png','./assets/narobimini.png', '6', enemigo.id)
                     } else if (enemigoNombre == 'nutso') {
-                    personajeEnemigo = new Personajes('nutso', './assest/nutso.png', './assest/nutsomini.png', '6', enemigo.id)
+                    personajeEnemigo = new Personajes('nutso', './assets/nutso.png', './assets/nutsomini.png', '6', enemigo.id)
                     } else if (enemigoNombre == 'limbre') {
-                    personajeEnemigo = new Personajes('limbre', './assest/limbre.png', './assest/limbremini.png', '6', enemigo.id)
+                    personajeEnemigo = new Personajes('limbre', './assets/limbre.png', './assets/limbremini.png', '6', enemigo.id)
                     } else if (enemigoNombre == 'iroki') {
-                    personajeEnemigo = new Personajes('iroki', './assest/iroki.png', './assest/irokimini.png', '6', enemigo.id) 
+                    personajeEnemigo = new Personajes('iroki', './assets/iroki.png', './assets/irokimini.png', '6', enemigo.id) 
                     } else { console.log("El personaje nombre.personaje no existe") }
                     personajeEnemigo.x = enemigo.x
                     personajeEnemigo.y = enemigo.y
