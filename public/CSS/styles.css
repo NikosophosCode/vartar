@@ -1,0 +1,330 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300&family=Alkatra:wght@400..700&family=Merienda:wght@900&display=swap&family=Nosifer&display=swap&family=Nosifer&family=Spicy+Rice&display=swap&family=Akaya+Kanadaka&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    --color-primario: #4b2f68;
+    --color-secundario: #d589d5;
+    --color-bg: #3a250ec2;
+    --color-text: rgb(196 191 188);
+    --color-border: #777299;
+}
+html {
+    scroll-behavior: smooth;
+    font-size: 62.5%; /* 1rem = 10px */
+}
+body {
+    background-color: white;
+}
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+}
+header h1 {
+    font-size: 2.5rem; /* 30px */
+    text-align: center;
+    color: rgb(0 0 0);
+    width: 82%;
+    height: 46%;
+    background-color: rgb(28 57 99 / 52%);
+    font-family: "Merienda", cursive;
+    font-optical-sizing: auto;
+    border: 3px solid rgb(147, 143, 141);
+    border-radius: 20px;
+}
+article h2 {
+    font-size: 2rem; /* 20px */
+    text-align: center;
+    color: var(--color-text);
+    width: 82%;
+    height: 46%;
+    background-color: var(--color-bg);
+    font-family: "Merienda", cursive;
+    font-optical-sizing: auto;
+    border: 3px solid var(--color-border);
+    border-radius: 20px;
+    margin: 8px;
+}
+article p {
+    font-size: 1.6rem; /* 16px */
+    line-height: 1.5;
+    color: var(--color-text);
+    border: var(--color-border) 2px solid;
+    background: var(--color-bg);
+
+}
+article ul li {
+    font-size: 1.6rem; /* 16px */
+    line-height: 1.5;
+    color: var(--color-text);
+    border: var(--color-border) 2px solid;
+    background: var(--color-bg);
+
+}   
+
+.personajes {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 8px;
+}
+.personajes-elegidos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.tarjeta-personaje {
+    width: 34%;
+    height: 28%;
+    background-color: rgb(66, 68, 114);
+    margin: 6px;
+    border: 4px outset rgb(125, 98, 150);
+    border-radius: 20px;
+    padding: 4px;
+}
+.tarjeta-personaje img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+.tarjeta-personaje:active {
+    transform: scale(0.95);
+}
+.tarjeta-personaje:hover {
+    cursor: pointer;
+}
+.boton-seleccion-personaje {
+    display: flex;
+    justify-content: center;
+}
+.boton-seleccion-personaje button {
+    color: rgb(255 255 255);
+    background-color: #000000c2;
+    padding: 6px;
+    box-sizing: border-box;
+    border: 3px solid rgb(119, 114, 153);
+    font-family: "Poppins", sans-serif;
+    border-radius: 35px;
+    width: 34%;
+    height: auto;         
+}
+.boton-seleccion-personaje button:active {
+    transform: scale(0.95);
+}
+.imagen-jugadores {
+    border-radius: 20px;
+    border: 4px solid black;
+    width: 140px;
+    height: 120px;
+}
+.boton-de-poderes {
+    color: rgb(255 255 255);
+    width: 174px;
+    height: 62px;
+    background-color: #000000c2;
+    padding: 7px;
+    box-sizing: border-box;
+    border: 3px solid rgb(119, 114, 153);
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: x-large;
+    border-radius: 35px;
+}
+.boton-de-poderes:active {
+    transform: scale(0.95);
+}
+#poderes-vidas {
+    display: grid;
+    grid-template-columns: 160px 160px;
+    justify-content: space-around;
+    text-align: center;
+    border: #000000e8 5px solid;
+    font-size: xx-large;
+    font-family: "Akaya Kanadaka", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    background-color: #e16161b5;
+    border-radius: 24px;
+}    
+#resultado-combate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 289px;
+    height: 92px;
+    font-size: xxx-large;
+    background: #ff0707ba;
+    border: none;
+    border-radius: 10px;
+    margin-left: 579px;
+    margin-right: 20px;
+    margin-top: 7px;
+    margin-bottom: 10px;
+    justify-content: center;
+    color: white;
+}
+#mensaje-final {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+    width: 540px;
+    height: 124px;
+    border-radius: 15px;
+    background-color: #ff0303d1;
+    font-family: "Spicy Rice", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: x-large;
+}
+#resultado {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+#fin-juego {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #4b2f68cc;
+}
+#reiniciar {
+    width: 164px;
+    height: 56px;
+    font-size: xx-large;
+    font-family: "Alkatra", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    border-radius: 8px;
+    background-color: #ea06066e;
+    color: #8577bd;
+}
+#poder-lanzado-enemigo {
+    border-bottom: 4px solid;
+}
+#subtituloUno {
+    color: rgb(224 250 255);
+    height: 60px;
+    width: 276px;
+    font-size: xx-large;
+    font-family: "Alkatra", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    border: 2px solid #d589d5;
+    background-color: #000000a6;
+    border-radius: 20px;
+    margin-right: 5px;
+    padding-left: 16px;
+    padding-top: 4px;
+}
+#subtituloDos {
+    color: rgb(224 250 255);
+    height: 60px;
+    width: 210px;
+    font-size: xx-large;
+    font-family: "Alkatra", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    border: 2px solid #d589d5;
+    background-color: #000000a6;
+    border-radius: 20px;
+    margin-right: 5px;
+    padding-left: 16px;
+    padding-top: 4px;
+}
+#subtituloTres {
+    color: rgb(224 250 255);
+    height: 60px;
+    width: 348px;
+    font-size: xx-large;
+    font-family: "Alkatra", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    border: 2px solid #d589d5;
+    background-color: #000000a6;
+    border-radius: 20px;
+    margin-right: 5px;
+    margin-left: 534px;
+    padding-left: 16px;
+    padding-top: 4px;
+}
+section .mapa-title {
+    color: rgb(224 250 255);
+    font-size: 2rem; /* 20px */
+    font-family: "Alkatra", system-ui;
+    font-optical-sizing: auto;
+    border: 2px solid #d589d5;
+    background-color: #000000a6;
+    border-radius: 10px;
+    margin: 8px;
+    width: 85%;
+}
+#botones-desplazamiento {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#botones-desplazamiento button {
+    font-size: 20px;
+    padding: 16px;
+    background-color: #000000cf;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+.flechas:hover {
+    color: #fff;
+    background: #000;
+    transform: translateX(-2px);
+    cursor: pointer;
+}
+.flechas {
+    font-size: xx-large;
+    border: 5px white solid;
+    margin: 2px;
+}
+.flechas:active {
+    transform: scale(0.95);
+}
+.video-fondo {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+.video-fondo video {
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+}
+#ver-mapa {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+input {
+    display: none;
+}
+input:checked + label {
+    background-color: black;    
+    border-color: black;
+}

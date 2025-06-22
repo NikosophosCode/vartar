@@ -1,0 +1,75 @@
+/* Desktop Stylesheet */
+
+
+@media (min-width: 1024px) {
+    #seleccionar-personaje {
+        flex-direction: column;
+    }    
+    #titulo {
+        font-size: x-large;
+        width: 130px;
+        height: 38px;
+        padding-left: 16px;
+        margin-bottom: 5px;
+    }   
+    #subtituloUno {
+        height: 38px;
+        width: 218px;
+        font-size: x-large;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+    .tarjeta-personaje img {
+        width: 120px;
+        height: 100px;
+    }
+    .tarjeta-personaje {
+        width: 120px;
+        height: 100px;  
+        margin: 10px;
+        
+    }
+    #boton-personajeJ {
+        width: 130px;
+        height: 40px;
+        margin-top: 12px;
+        font-size: medium;
+    }
+    #personajes-seleccionados {
+        flex-direction: column;
+    }
+    .boton-de-poderes {
+        margin-left: 86px;
+        margin-top: 12px;
+        width: 130px;
+        height: 44px;
+        font-size: larger;
+    }
+    #resultado-combate {
+        margin-left: 70px;
+        width: 164px;
+        height: 58px;
+        font-size: x-large;
+        margin-bottom: 0px;
+
+    }
+    #subtituloTres {
+        height: 38px;
+        width: 268px;
+        font-size: x-large;
+        margin-left: 30px;
+    }    
+    #mensaje-final {
+        width: 230px;
+        height: 76px;
+        font-size: smaller;
+        margin-left: 44px;
+        padding-left: 16px;
+    }
+    #titulo-mapa {
+        height: 60px;
+        width: 360px;
+        font-size: x-large;
+        margin-left: 24px;
+    }
+}   

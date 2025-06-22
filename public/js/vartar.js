@@ -71,8 +71,6 @@ const sectionResultado = document.getElementById("resultado")
 sectionResultado.style.display = "none"
 const sectionSeleccionarPersonaje = document.getElementById("subtituloTres")
 sectionSeleccionarPersonaje.style.display = "none"
-const botonjeje = document.getElementById("jeje")
-botonjeje.addEventListener("click", irseVerga)
 const sectionMensaje = document.getElementById("mensaje-final")
 sectionMensaje.style.display = "none"
 const titulo = document.getElementById("titulo")
@@ -227,17 +225,7 @@ function unirseAlServidor() {
             }
         }) 
 }
-// función para boton especial xd, ejecución de variables 
-function irseVerga() {
-    alert("Ah bueno, chao")
-    sectionPersonajeJ.style.display = "none" 
-    sectionPersonajeE.style.display = "none"
-    sectionMensaje.style.display = "none"
-    titulo.style.display = "none"
-    sectionFinJuego.style.display = "none"
-    cajaPoderesJugadores.style.display = "none"
-    tercerTitulo.style.display = "none"
-}
+
 //función seleccionar personaje jugador
 async function seleccionarPersonajeJ() {
     let img = document.createElement("img")

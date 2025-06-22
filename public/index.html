@@ -3,28 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vartar</title>
-    <link rel="stylesheet" href="./stylesVartar.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Vartar es un juego de rol multijugador donde los jugadores eligen personajes y poderes para enfrentarse en un mapa interactivo.">
+    <meta name="keywords" content="Vartar, juego de rol, multijugador, personajes, poderes, mapa interactivo">
+    <meta name="author" content="NikosophosCode">
+    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
+    <title>Vartar </title>
+    <link rel="stylesheet" href="./CSS/styles.css">
 </head>
 <body>
-    <div class="video-fondo">
-        <video autoplay muted loop playsinline>
-            <source src="./assets/fondo.mp4" type="video/mp4">
-       </video>
-    </div>
-    <section id="titulos-iniciales">
-            <h1 id="titulo">¡VARTAR!</h1>
-            <h2 id="subtituloUno">Elige a tu personaje</h2>
-    </section>
-   
-    <section id="seleccionar-personaje">
+    <header>
+        <h1>¡Bienvenido a Vartar!</h1>
+    </header>
+    <main>
+        <article id="instrucciones">
+            <h2>Instrucciones</h2>
+            <p>En este juego, podrás elegir un personaje y un poder para enfrentarte a otros jugadores en un mapa interactivo. Tu objetivo es reducir la vida de tus oponentes a cero utilizando tu poder. ¡Buena suerte!</p>
+        </article>
+        <article id="instrucciones-juego">
+            <h2>Instrucciones del juego</h2>
+            <ul>
+                <li>Selecciona un personaje y un poder.</li>
+                <li>Utiliza los botones de desplazamiento para moverte por el mapa.</li>
+                <li>Ataca a tus oponentes utilizando tu poder.</li>
+                <li>Elimina a tus oponentes reduciendo su vida a cero.</li>
+                <li>El último jugador en pie gana el juego.</li>
+            </ul>
+        </article>
+
+        <section id="seleccionar-personaje" class="personajes">
             <!-- Inyección de datos desde el JS  -->
-    </section>
-        <div id="boton-personaje-jugador">
+        </section>
+        <div class="boton-seleccion-personaje">
             <button id="boton-personajeJ">Seleccionar</button>
-        </div>
-    <section id="personajes-seleccionados">
+        </div> 
+        <section id="personajes-seleccionados" class="personajes-elegidos">
             
             <h1 id="titulo">¡VARTAR!</h1>
             
@@ -33,6 +46,7 @@
             <div id="apartado-botones-poderes">
             </div>
     </section>
+
     <section id="resultado">
        <div id="mensaje-final"></div>
     </section>
@@ -40,7 +54,7 @@
             <h2>Esperando a los demás jugadores 😁...</h2>
     </section>
     <section id="ver-mapa">
-        <h2 id="titulo-mapa">¡Recorre el mapa con tu personaje!</h2>
+        <h2 id="titulo-mapa" class="mapa-title">¡Recorre el mapa con tu personaje!</h2>
         <canvas id="mapa"></canvas>
         <section id="botones-desplazamiento">
             <button id="arriba" class="flechas">↑</button>
@@ -50,26 +64,40 @@
                 <button id="derecha" class="flechas">→</button>
            </div> 
         </section>
-       
     </section>
-    <h2 id="subtituloTres">Personajes seleccionados</h2>
-    
-    <div id="poderes-vidas">
+
+    <section id="poderes-vidas">
+        <h2 id="subtituloTres">Personajes seleccionados</h2>
         <div>
             <p id="vidas-jugador">0</p>
-            <div id="personaje-jugador" class="imagen-jugadores"></div>
+            <figure id="personaje-jugador" class="imagen-jugadores"></figure>
             <div id="poder-lanzado-jugador"></div>
         </div>
         <div>
             <p id="vidas-enemigo">0</p>
-            <div id="personaje-enemigo" class="imagen-jugadores"></div>
+            <figure id="personaje-enemigo" class="imagen-jugadores"></figure>
             <div id= "poder-lanzado-enemigo"></div>
         </div>
-    </div>
+    </section>
     <section id="fin-juego">
         <button id="reiniciar">REINICIAR</button>
-        <button id="jeje">Irse a la verga</button>
     </section>
+    </main>
+    <footer>
+        <p>© 2023 Vartar. Todos los derechos reservados.</p>
+        <p>Desarrollado por <a href="https://nikosophoscode.github.io/">NikosophosCode</a></p>
+        <p>Contacto: <a href="mailto:nikosophoscode@gmail.com">nikosophoscode@gmail.com</a></p>
+        <p>Este juego es un proyecto personal y no está afiliado a ninguna empresa.</p>
+        <p>¡Gracias por jugar!</p>
+    </footer>
+    
+    
+    
+    
+    <div class="video-fondo">
+        <video autoplay muted loop playsinline>
+            <source src="./assets/fondo.mp4" type="video/mp4">
+       </video>
     <script defer src="./js/vartar.js"></script>
 </body>
 </html>
