@@ -53,7 +53,13 @@ app.post("/vartar/:idJugador/posicion", (req, res) => {
     if (jugadorIndex >= 0) {
         jugadores[jugadorIndex].actualizarPosicion(x, y)
     }
-    const enemigos = jugadores.filter((enemigo) => idJugador != enemigo.id) 
+    // Solo enemigos con personaje y posición válidos
+    const enemigos = jugadores.filter((enemigo) => 
+        idJugador != enemigo.id &&
+        enemigo.personaje &&
+        typeof enemigo.x === 'number' &&
+        typeof enemigo.y === 'number'
+    )
     res.send({
         enemigos     
     })

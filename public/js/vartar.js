@@ -85,6 +85,7 @@ if (anchoDelMapa > anchoMaximoMapa) {
 altoDelMapa = anchoDelMapa * 3 / 4
 mapa.width = anchoDelMapa
 mapa.height = altoDelMapa 
+
 class Personajes {
     constructor(nombre, imagen, mini, ataques, id = null){
         this.id = id
@@ -444,8 +445,10 @@ function mapaPersonaje() {
     }
     actualizarPosicion(nuevosPersonajes[v].x, nuevosPersonajes[v].y)
     enemigosServidor.forEach(function(personaje) {
-        personaje.dibujarPersonajes()
-        revisarColision(personaje)
+        if (personaje && typeof personaje.dibujarPersonajes === 'function') {
+            personaje.dibujarPersonajes()
+            revisarColision(personaje)
+        }
     })
 }
   
@@ -491,9 +494,9 @@ function actualizarPosicion(x, y) {
                     personajeEnemigo.y = enemigo.y
                     return personajeEnemigo
                 } else {
-                    return
+                    return null
                 } 
-                })
+                }).filter(enemigo => enemigo !== null)
             
                 
             })
