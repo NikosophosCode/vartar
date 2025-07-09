@@ -122,14 +122,6 @@ let nutso = new Personajes('nutso', './assets/nutso.jpg', './assets/nutsomini.we
 let limbre = new Personajes('limbre', './assets/limbre.jpg', './assets/limbremini.webp', '6',)
 let iroki = new Personajes('iroki', './assets/iroki.jpg', './assets/irokimini.webp', '6',)
 
-// let sinjiEnemigo = new Personajes('sinji', './assets/sinji.png', './assets/sinjimini.png', '6',)
-// let kiiraEnemigo = new Personajes('kiira', './assets/kiira.png', './assets/kiiramini.png', '6',)
-// let kimoEnemigo = new Personajes('kimo', './assets/kimo.png', './assets/kimomini.png', '6',)
-// let veraEnemigo = new Personajes('vera', './assets/vera.png', './assets/veramini.png', '6',)
-// let narobiEnemigo = new Personajes('narobi', './assets/narobi.png','./assets/narobimini.png', '6',)
-// let nutsoEnemigo = new Personajes('nutso', './assets/nutso.png', './assets/nutsomini.png', '6',)
-// let limbreEnemigo = new Personajes('limbre', './assets/limbre.png', './assets/limbremini.png', '6',)
-// let irokiEnemigo = new Personajes('iroki', './assets/iroki.png', './assets/irokimini.png', '6',)
 sinji.poderes.push(
     { nombre: "TIERRA 🌎", id:"TIERRA" },
     { nombre: "TIERRA 🌎", id:"TIERRA" },
@@ -194,14 +186,6 @@ iroki.poderes.push(
     { nombre: "FUEGO 🔥", id:"FUEGO" },
     { nombre: "AIRE ☁", id:"AIRE" },
 )
-// sinjiEnemigo.poderes = sinji.poderes
-// kiiraEnemigo.poderes = kiira.poderes
-// kimoEnemigo.poderes = kimo.poderes
-// veraEnemigo.poderes = vera.poderes
-// narobiEnemigo.poderes = narobi.poderes
-// nutsoEnemigo.poderes = nutso.poderes
-// limbreEnemigo.poderes = limbre.poderes
-// irokiEnemigo.poderes = iroki.poderes
 
 nuevosPersonajes.push(sinji,kiira,kimo,vera,narobi,nutso,limbre,iroki)
 nuevosPersonajes.forEach((personaje) => {
@@ -228,7 +212,7 @@ function unirseAlServidor() {
 }
 
 //función seleccionar personaje jugador
-async function seleccionarPersonajeJ() {
+function seleccionarPersonajeJ() {
     let img = document.createElement("img")
     img.width = 140
     img.height = 120
@@ -334,18 +318,7 @@ function secuenciaPoderes() {
         })         
     })
 }     
-// function seleccionarPersonajeE(enemigo) {
-//     let imgEnemigo = document.createElement("img")
-//     imgEnemigo.src = enemigo.imagen
-//     imgEnemigo.alt = enemigo.nombre
-//     imgEnemigo.width = 140
-//     imgEnemigo.height = 120
-//     imgEnemigo.style.borderRadius = "16px"
-//     spanPersonajeE.appendChild(imgEnemigo)   
-//     poderesDeEnemigo = enemigo.poderes
-    
-    
-// }  
+ 
      //Función para enviar al servidor los ataques seleccionados
 function enviarAtaquesServidor() {
         fetch(`http://localhost:3000/vartar/${idJugador}/poderes`, {
