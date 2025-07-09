@@ -17,7 +17,6 @@
     </header>
     <main>
         <article id="instrucciones">
-            <h2>Instrucciones</h2>
             <p>En este juego, podrás elegir un personaje y un poder para enfrentarte a otros jugadores en un mapa interactivo. Tu objetivo es reducir la vida de tus oponentes a cero utilizando tu poder. ¡Buena suerte!</p>
         </article>
         <article id="instrucciones-juego">
@@ -33,26 +32,24 @@
 
         <section id="seleccionar-personaje" class="personajes">
             <!-- Inyección de datos desde el JS  -->
+            
         </section>
-        <div class="boton-seleccion-personaje">
-            <button id="boton-personajeJ">Seleccionar</button>
-        </div> 
+        <div id="boton-seleccion-personaje" class="boton-seleccion-personaje">
+                <button id="boton-personajeJ">Seleccionar</button>
+        </div>
         <section id="personajes-seleccionados" class="personajes-elegidos">
-            
-            <h1 id="titulo">¡VARTAR!</h1>
-            
             <h2 id="subtituloDos">Elige tu poder</h2>
-                
             <div id="apartado-botones-poderes">
+                <!-- Inyección de poderes desde el JS -->
             </div>
-    </section>
+        </section>
 
     <section id="resultado">
        <div id="mensaje-final"></div>
     </section>
-    <section id="espera-jugadores">
+    <!-- <section id="espera-jugadores">
             <h2>Esperando a los demás jugadores 😁...</h2>
-    </section>
+    </section> -->
     <section id="ver-mapa">
         <h2 id="titulo-mapa" class="mapa-title">¡Recorre el mapa con tu personaje!</h2>
         <canvas id="mapa"></canvas>
@@ -84,7 +81,7 @@
     </section>
     </main>
     <footer>
-        <p>© 2023 Vartar. Todos los derechos reservados.</p>
+        <p>© 2025 Vartar. Todos los derechos reservados.</p>
         <p>Desarrollado por <a href="https://nikosophoscode.github.io/">NikosophosCode</a></p>
         <p>Contacto: <a href="mailto:nikosophoscode@gmail.com">nikosophoscode@gmail.com</a></p>
         <p>Este juego es un proyecto personal y no está afiliado a ninguna empresa.</p>

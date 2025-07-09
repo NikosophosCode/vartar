@@ -36,16 +36,19 @@ class Game {
     initializeElements() {
         try {
             this.elements = {
-                waitingRoom: document.getElementById("espera-jugadores"),
+                // waitingRoom: document.getElementById("espera-jugadores"),
                 playerCharacterSpan: document.getElementById("personaje-jugador"),
                 enemyCharacterSpan: document.getElementById("personaje-enemigo"),
                 enemyPowerSpan: document.getElementById("poder-lanzado-enemigo"),
                 playerPowerSpan: document.getElementById("poder-lanzado-jugador"),
                 playerLivesSpan: document.getElementById("vidas-jugador"),
+                sectionCharacter: document.getElementById("personajes-seleccionados"),
+                sectionPowers: document.getElementById("poderes-vidas"),
                 enemyLivesSpan: document.getElementById("vidas-enemigo"),
                 mapSection: document.getElementById('ver-mapa'),
                 map: document.getElementById('mapa'),
                 characterSelectButton: document.getElementById("boton-personajeJ"),
+                divButtonCharacter: document.getElementById("boton-seleccion-personaje"),
                 restartButton: document.getElementById("reiniciar"),
                 powerButtons: document.getElementById("apartado-botones-poderes"),
                 characterSection: document.getElementById("seleccionar-personaje"),
@@ -78,7 +81,8 @@ class Game {
     hideInitialElements() {
         const elementsToHide = [
             'waitingRoom', 'mapSection', 'gameEndSection', 
-            'resultSection', 'messageSection'
+            'resultSection', 'messageSection', 'sectionCharacter',
+            'sectionPowers'
         ];
         
         elementsToHide.forEach(elementKey => {
@@ -207,7 +211,7 @@ class Game {
             }
             
             this.displaySelectedCharacter();
-            this.renderPlayerPowers();
+            
             await APIService.sendCharacter(this.playerId, characterName);
             this.startGame();
             
@@ -302,6 +306,7 @@ class Game {
     startGame() {
         this.elements.mapSection.style.display = 'flex';
         this.elements.characterSection.style.display = 'none';
+        this.elements.divButtonCharacter.style.display = 'none';
         this.gameInterval = setInterval(() => this.updateGame(), Config.UI.UPDATE_INTERVAL);
     }
     
@@ -405,12 +410,15 @@ class Game {
     }
     
     handleCollision(enemy) {
+        this.renderPlayerPowers();
         this.stopMovement();
         clearInterval(this.gameInterval);
         this.enemyId = enemy.id;
         
         this.elements.mapSection.style.display = 'none';
         this.elements.gameEndSection.style.display = 'flex';
+        this.elements.sectionPowers.style.display = 'grid';
+        this.elements.sectionCharacter.style.display = 'flex';
         
         this.setupPowerEventListeners();
         console.log('Colisión detectada con:', enemy.name);
