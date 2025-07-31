@@ -8,8 +8,8 @@ class Character {
         this.position = { x: 0, y: 0 };
         this.velocity = { x: 0, y: 0 };
         this.size = {
-            width: Config.GAME.PLAYER.SIZE_RATIO * (Game.mapDimensions.width / Config.GAME.MAP.MAX_WIDTH),
-            height: Config.GAME.PLAYER.SIZE_RATIO * (Game.mapDimensions.width / Config.GAME.MAP.MAX_WIDTH)
+            width: Config.GAME.PLAYER.SIZE,
+            height: Config.GAME.PLAYER.SIZE
         };
         
         this.mapImage = new Image();
@@ -22,8 +22,9 @@ class Character {
     }
     
     initializePosition() {
-        this.position.x = this.getRandomPosition(0, Game.mapDimensions.width - this.size.width);
-        this.position.y = this.getRandomPosition(0, Game.mapDimensions.height - this.size.height);
+        // Posición inicial aleatoria pero válida
+        this.position.x = Math.random() * 200; // Límite inicial pequeño
+        this.position.y = Math.random() * 200;
     }
     
     getRandomPosition(min, max) {
@@ -60,13 +61,15 @@ class Character {
         }
     }
     
-    move() {
+    move(mapDimensions) {
+        if (!mapDimensions) return;
+        
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
         
         // Mantener dentro de los límites del mapa
-        this.position.x = Math.max(0, Math.min(this.position.x, Game.mapDimensions.width - this.size.width));
-        this.position.y = Math.max(0, Math.min(this.position.y, Game.mapDimensions.height - this.size.height));
+        this.position.x = Math.max(0, Math.min(this.position.x, mapDimensions.width - this.size.width));
+        this.position.y = Math.max(0, Math.min(this.position.y, mapDimensions.height - this.size.height));
     }
     
     setVelocity(x, y) {

@@ -20,23 +20,9 @@ class Game {
         this.joinServer();
     }
     
-    static get mapDimensions() {
-        let width = window.innerWidth - Config.GAME.MAP.MARGIN;
-        let height;
-        
-        if (width > Config.GAME.MAP.MAX_WIDTH) {
-            width = Config.GAME.MAP.MAX_WIDTH - Config.GAME.MAP.MARGIN;
-        }
-        
-        height = width * Config.GAME.MAP.ASPECT_RATIO;
-        
-        return { width, height };
-    }
-    
     initializeElements() {
         try {
             this.elements = {
-                // waitingRoom: document.getElementById("espera-jugadores"),
                 playerCharacterSpan: document.getElementById("personaje-jugador"),
                 enemyCharacterSpan: document.getElementById("personaje-enemigo"),
                 enemyPowerSpan: document.getElementById("poder-lanzado-enemigo"),
@@ -78,6 +64,20 @@ class Game {
         }
     }
     
+    setupMapDimensions() {
+        // Obtener dimensiones del CSS computado
+        const computedStyle = window.getComputedStyle(this.elements.map);
+        const width = parseInt(computedStyle.width);
+        const height = parseInt(computedStyle.height);
+        
+        // Establecer dimensiones del canvas
+        this.elements.map.width = width;
+        this.elements.map.height = height;
+        
+        // Guardar dimensiones para uso posterior
+        this.mapDimensions = { width, height };
+    }
+    
     hideInitialElements() {
         const elementsToHide = [
             'waitingRoom', 'mapSection', 'gameEndSection', 
@@ -90,12 +90,6 @@ class Game {
                 this.elements[elementKey].style.display = "none";
             }
         });
-    }
-    
-    setupMapDimensions() {
-        const dimensions = Game.mapDimensions;
-        this.elements.map.width = dimensions.width;
-        this.elements.map.height = dimensions.height;
     }
     
     initializeMap() {
@@ -338,7 +332,7 @@ class Game {
     
     updatePlayerCharacter() {
         if (this.selectedCharacter) {
-            this.selectedCharacter.move();
+            this.selectedCharacter.move(this.mapDimensions);
             this.selectedCharacter.draw(this.canvas);
             this.updatePlayerPosition();
         }

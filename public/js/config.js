@@ -30,20 +30,14 @@ const Config = {
             ]
         },
         
-        MAP: {
-            MAX_WIDTH: 900,
-            ASPECT_RATIO: 3/4,
-            MARGIN: 20
-        },
-        
         PLAYER: {
             SPEED: 5,
-            SIZE_RATIO: 100
+            SIZE: 80 // Tamaño fijo en píxeles
         }
     },
     
     UI: {
         UPDATE_INTERVAL: 50,
-        COLLISION_MARGIN: 25
+        COLLISION_MARGIN: 10
     }
 };

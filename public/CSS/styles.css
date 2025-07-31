@@ -328,10 +328,22 @@ section .mapa-title {
     align-items: center;
   }
 #mapa {
-    width: 90%;
+    width: 90vw;
+    max-width: 900px;
+    height: calc(90vw * 0.75); /* Mantiene aspect ratio 4:3 */
+    max-height: calc(900px * 0.75);
     border-radius: 20px;
     border: 4px solid rgb(125 98 150 / 31%);
     margin: 8px;
+    display: block;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+    #mapa {
+        width: 95vw;
+        height: calc(95vw * 0.75);
+    }
 }
 input {
     display: none;
