@@ -39,7 +39,6 @@ class Game {
                 powerButtons: document.getElementById("apartado-botones-poderes"),
                 characterSection: document.getElementById("seleccionar-personaje"),
                 gameEndSection: document.getElementById("fin-juego"),
-                resultSection: document.getElementById("resultado"),
                 messageSection: document.getElementById("mensaje-final"),
                 upButton: document.getElementById("arriba"),
                 downButton: document.getElementById("abajo"),
@@ -80,8 +79,8 @@ class Game {
     
     hideInitialElements() {
         const elementsToHide = [
-            'waitingRoom', 'mapSection', 'gameEndSection', 
-            'resultSection', 'messageSection', 'sectionCharacter',
+            'mapSection', 'gameEndSection',
+            'messageSection', 'sectionCharacter',
             'sectionPowers'
         ];
         
@@ -278,8 +277,6 @@ class Game {
             button.style.background = '#0000007d';
             button.style.color = '#2a2323';
             button.disabled = true;
-            
-            this.elements.resultSection.style.display = 'flex';
             
             if (this.playerPowers.length === 6) {
                 this.sendPlayerPowers();
@@ -525,23 +522,31 @@ class Game {
     }
     
     showFinalResult() {
-        let message;
+        let message, resultType, uniqueId;
         
         if (this.playerVictories > this.enemyVictories) {
             message = '¡ENHORABUENA HAS GANADO!🎉';
+            resultType = 'victory';
+            uniqueId = 'victory-message';
         } else if (this.playerVictories < this.enemyVictories) {
             message = 'OH, LO SENTIMOS, HAS PERDIDO 😢';
+            resultType = 'defeat';
+            uniqueId = 'defeat-message';
         } else {
             message = 'HAS EMPATADO XD';
+            resultType = 'draw';
+            uniqueId = 'draw-message';
         }
         
-        this.displayFinalMessage(message);
+        this.displayFinalMessage(message, resultType, uniqueId);
     }
     
-    displayFinalMessage(message) {
+    displayFinalMessage(message, resultType, uniqueId) {
         this.elements.messageSection.style.display = 'flex';
         
         const messageElement = document.createElement('h2');
+        messageElement.id = uniqueId;
+        messageElement.className = `game-result-message game-result-message--${resultType}`;
         messageElement.textContent = message;
         this.elements.messageSection.appendChild(messageElement);
         

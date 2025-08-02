@@ -193,36 +193,71 @@ main article {
     border-radius: 24px;
 }
 
-.result-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 289px;
-    height: 92px;
-    font-size: xxx-large;
-    background: #ff0707ba;
-    border: none;
-    border-radius: 10px;
-    margin-left: 579px;
-    margin-right: 20px;
-    margin-top: 7px;
-    margin-bottom: 10px;
-    justify-content: center;
-    color: white;
-}
-
-.final-message {
-    display: flex;
-    justify-content: center;
-    margin: 5px;
-    width: 540px;
-    height: 124px;
-    border-radius: 15px;
-    background-color: #ff0303d1;
+/* Game Result Messages */
+.game-result-message {
     font-family: "Spicy Rice", serif;
     font-weight: 400;
     font-style: normal;
     font-size: x-large;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 5px;
+    width: 100%;
+    height: 100%;
+}
+
+.game-result-message--victory {
+    background-color: #28a745;
+    color: white;
+    border: 3px solid #155724;
+}
+
+.game-result-message--defeat {
+    background-color: #dc3545;
+    color: white;
+    border: 3px solid #721c24;
+}
+
+.game-result-message--draw {
+    background-color: #ffc107;
+    color: #212529;
+    border: 3px solid #d39e00;
+}
+
+/* Specific message styles for unique IDs */
+#victory-message {
+    box-shadow: 0 0 20px rgba(40, 167, 69, 0.5);
+    animation: pulse-victory 1.5s infinite;
+}
+
+#defeat-message {
+    box-shadow: 0 0 20px rgba(220, 53, 69, 0.5);
+    animation: pulse-defeat 1.5s infinite;
+}
+
+#draw-message {
+    box-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+    animation: pulse-draw 1.5s infinite;
+}
+
+/* Animations */
+@keyframes pulse-victory {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes pulse-defeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+@keyframes pulse-draw {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
 }
 
 .game-end {
