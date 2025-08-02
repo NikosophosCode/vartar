@@ -217,9 +217,8 @@ class Game {
     
     displaySelectedCharacter() {
         const img = document.createElement('img');
-        img.width = 140;
-        img.height = 120;
-        img.style.borderRadius = '16px';
+        img.id = 'selected-character-image';
+        img.className = 'selected-character';
         img.src = this.selectedCharacter.image;
         img.alt = this.selectedCharacter.name;
         this.elements.playerCharacterSpan.appendChild(img);

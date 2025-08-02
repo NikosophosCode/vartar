@@ -16,12 +16,12 @@
         <h1>¡Bienvenido a Vartar!</h1>
     </header>
     <main>
-        <article id="instrucciones">
+        <article id="instrucciones" class="game-instructions">
             <p>En este juego, podrás elegir un personaje y un poder para enfrentarte a otros jugadores en un mapa interactivo. Tu objetivo es reducir la vida de tus oponentes a cero utilizando tu poder. ¡Buena suerte!</p>
         </article>
-        <article id="instrucciones-juego">
-            <h2>Instrucciones del juego</h2>
-            <ul>
+        <article id="instrucciones-juego" class="game-rules">
+            <h2 class="section-title">Instrucciones del juego</h2>
+            <ul class="rules-list">
                 <li>Selecciona un personaje y un poder.</li>
                 <li>Utiliza los botones de desplazamiento para moverte por el mapa.</li>
                 <li>Ataca a tus oponentes utilizando tu poder.</li>
@@ -30,62 +30,62 @@
             </ul>
         </article>
 
-        <section id="seleccionar-personaje" class="personajes">
+        <section id="seleccionar-personaje" class="personajes character-selection">
             <!-- Inyección de datos desde el JS  -->
             
         </section>
-        <div id="boton-seleccion-personaje" class="boton-seleccion-personaje">
-                <button id="boton-personajeJ">Seleccionar</button>
+        <div id="boton-seleccion-personaje" class="boton-seleccion-personaje character-select-wrapper">
+                <button id="boton-personajeJ" class="character-select-btn">Seleccionar</button>
         </div>
-        <section id="personajes-seleccionados" class="personajes-elegidos">
-            <h2 id="subtituloDos">Elige tu poder</h2>
-            <div id="apartado-botones-poderes">
+        <section id="personajes-seleccionados" class="personajes-elegidos power-selection">
+            <h2 id="subtituloDos" class="power-selection-title">Elige tu poder</h2>
+            <div id="apartado-botones-poderes" class="power-buttons-container">
                 <!-- Inyección de poderes desde el JS -->
             </div>
         </section>
 
-    <section id="resultado">
-       <div id="mensaje-final"></div>
+    <section id="resultado" class="result-section">
+       <div id="mensaje-final" class="final-message"></div>
     </section>
     <!-- <section id="espera-jugadores">
             <h2>Esperando a los demás jugadores 😁...</h2>
     </section> -->
-    <section id="ver-mapa">
-        <h2 id="titulo-mapa" class="mapa-title">¡Recorre el mapa con tu personaje!</h2>
-        <canvas id="mapa"></canvas>
-        <section id="botones-desplazamiento">
-            <button id="arriba" class="flechas">↑</button>
-            <div>
-                <button id="izquierda" class="flechas">←</button>
-                <button id="abajo" class="flechas">↓</button>
-                <button id="derecha" class="flechas">→</button>
+    <section id="ver-mapa" class="map-section">
+        <h2 id="titulo-mapa" class="mapa-title map-title">¡Recorre el mapa con tu personaje!</h2>
+        <canvas id="mapa" class="game-canvas"></canvas>
+        <section id="botones-desplazamiento" class="movement-controls">
+            <button id="arriba" class="flechas movement-btn movement-btn--up">↑</button>
+            <div class="movement-controls__row">
+                <button id="izquierda" class="flechas movement-btn movement-btn--left">←</button>
+                <button id="abajo" class="flechas movement-btn movement-btn--down">↓</button>
+                <button id="derecha" class="flechas movement-btn movement-btn--right">→</button>
            </div> 
         </section>
     </section>
-    <h2 id="subtituloTres" class="subtitulo-personajes">Personajes seleccionados</h2>
-    <section id="poderes-vidas" class="poderes-vidas">
+    <h2 id="subtituloTres" class="subtitulo-personajes combat-title">Personajes seleccionados</h2>
+    <section id="poderes-vidas" class="poderes-vidas combat-section">
         
-        <div>
-            <p id="vidas-jugador">0</p>
-            <figure id="personaje-jugador" class="imagen-jugadores"></figure>
-            <div id="poder-lanzado-jugador"></div>
+        <div class="player-info">
+            <p id="vidas-jugador" class="player-lives">0</p>
+            <figure id="personaje-jugador" class="imagen-jugadores player-character"></figure>
+            <div id="poder-lanzado-jugador" class="player-power"></div>
         </div>
-        <div>
-            <p id="vidas-enemigo">0</p>
-            <figure id="personaje-enemigo" class="imagen-jugadores"></figure>
-            <div id= "poder-lanzado-enemigo"></div>
+        <div class="enemy-info">
+            <p id="vidas-enemigo" class="enemy-lives">0</p>
+            <figure id="personaje-enemigo" class="imagen-jugadores enemy-character"></figure>
+            <div id="poder-lanzado-enemigo" class="enemy-power"></div>
         </div>
     </section>
-    <section id="fin-juego">
-        <button id="reiniciar">REINICIAR</button>
+    <section id="fin-juego" class="game-end">
+        <button id="reiniciar" class="restart-btn">REINICIAR</button>
     </section>
     </main>
-    <footer>
-        <p>© 2025 Vartar. Todos los derechos reservados.</p>
-        <p>Desarrollado por <a href="https://nikosophoscode.github.io/">NikosophosCode</a></p>
-        <p>Contacto: <a href="mailto:nikosophoscode@gmail.com">nikosophoscode@gmail.com</a></p>
-        <p>Este juego es un proyecto personal y no está afiliado a ninguna empresa.</p>
-        <p>¡Gracias por jugar!</p>
+    <footer class="site-footer">
+        <p class="footer-text">© 2025 Vartar. Todos los derechos reservados.</p>
+        <p class="footer-text">Desarrollado por <a href="https://nikosophoscode.github.io/" class="footer-link">NikosophosCode</a></p>
+        <p class="footer-text">Contacto: <a href="mailto:nikosophoscode@gmail.com" class="footer-link">nikosophoscode@gmail.com</a></p>
+        <p class="footer-text">Este juego es un proyecto personal y no está afiliado a ninguna empresa.</p>
+        <p class="footer-text">¡Gracias por jugar!</p>
     </footer>
     
     <div class="video-fondo">

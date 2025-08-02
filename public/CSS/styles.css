@@ -58,35 +58,52 @@ main article {
     align-items: center;
     margin: 26px;
 }
-article p {
+/* Game Instructions and Rules */
+.game-instructions p,
+.game-rules .rules-list li {
     font-size: 1.6rem; /* 16px */
     line-height: 1.5;
     color: var(--color-text);
     border: var(--color-border) 2px solid;
     background: var(--color-bg);
 }
-article ul li {
-    font-size: 1.6rem; /* 16px */
-    line-height: 1.5;
+
+.section-title {
+    font-size: 2rem; /* 20px */
+    text-align: center;
     color: var(--color-text);
-    border: var(--color-border) 2px solid;
-    background: var(--color-bg);
+    width: 82%;
+    height: 46%;
+    background-color: var(--color-bg);
+    font-family: "Merienda", cursive;
+    font-optical-sizing: auto;
+    border: 3px solid var(--color-border);
+    border-radius: 20px;
+    margin: 8px;
+}
 
-}   
-
-.personajes {
+/* Character Selection */
+.character-selection {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     justify-content: center;
     margin: 8px;
 }
-.personajes-elegidos {
+
+.power-selection {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
 }
+
+.selected-character {
+    width: 132px;
+    height: 112px;
+    border-radius: 16px;
+}
+
 .tarjeta-personaje {
     width: 34%;
     height: 28%;
@@ -96,23 +113,28 @@ article ul li {
     border-radius: 20px;
     padding: 4px;
 }
+
 .tarjeta-personaje img {
     width: 100%;
     height: 100%;
     border-radius: 10px;
 }
+
 .tarjeta-personaje:active {
     transform: scale(0.95);
 }
+
 .tarjeta-personaje:hover {
     cursor: pointer;
 }
-.boton-seleccion-personaje {
+
+.character-select-wrapper {
     display: flex;
     justify-content: center;
     margin: 14px;
 }
-.boton-seleccion-personaje button {
+
+.character-select-btn {
     color: rgb(255 255 255);
     background-color: #000000c2;
     padding: 6px;
@@ -123,15 +145,20 @@ article ul li {
     width: 34%;
     height: auto;         
 }
-.boton-seleccion-personaje button:active {
+
+.character-select-btn:active {
     transform: scale(0.95);
 }
-.imagen-jugadores {
+
+.player-character,
+.enemy-character {
     border-radius: 20px;
     border: 4px solid black;
     width: 140px;
     height: 120px;
 }
+
+/* Power System */
 .boton-de-poderes {
     color: rgb(255 255 255);
     width: 174px;
@@ -146,10 +173,13 @@ article ul li {
     font-size: x-large;
     border-radius: 35px;
 }
+
 .boton-de-poderes:active {
     transform: scale(0.95);
 }
-#poderes-vidas {
+
+/* Combat Section */
+.combat-section {
     display: grid;
     grid-template-columns: 160px 160px;
     justify-content: space-around;
@@ -161,8 +191,9 @@ article ul li {
     font-style: normal;
     background-color: #e16161b5;
     border-radius: 24px;
-}    
-#resultado-combate {
+}
+
+.result-section {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -179,7 +210,8 @@ article ul li {
     justify-content: center;
     color: white;
 }
-#mensaje-final {
+
+.final-message {
     display: flex;
     justify-content: center;
     margin: 5px;
@@ -192,17 +224,14 @@ article ul li {
     font-style: normal;
     font-size: x-large;
 }
-#resultado {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
-#fin-juego {
+
+.game-end {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-#reiniciar {
+
+.restart-btn {
     width: 164px;
     height: 56px;
     font-size: xx-large;
@@ -214,26 +243,13 @@ article ul li {
     background-color: #ea06066e;
     color: #8577bd;
 }
-#poder-lanzado-enemigo {
+
+.enemy-power {
     border-bottom: 4px solid;
 }
-#subtituloUno {
-    color: rgb(224 250 255);
-    height: 60px;
-    width: 276px;
-    font-size: xx-large;
-    font-family: "Alkatra", system-ui;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-    border: 2px solid #d589d5;
-    background-color: #000000a6;
-    border-radius: 20px;
-    margin-right: 5px;
-    padding-left: 16px;
-    padding-top: 4px;
-}
-#subtituloDos {
+
+/* Titles and Subtitles */
+.power-selection-title {
     color: rgb(224 250 255);
     height: 60px;
     width: 210px;
@@ -249,7 +265,8 @@ article ul li {
     padding-left: 16px;
     padding-top: 4px;
 }
-.subtitulo-personajes {
+
+.combat-title {
     color: rgb(224 250 255);
     height: 60px;
     width: 348px;
@@ -262,7 +279,8 @@ article ul li {
     background-color: #000000a6;
     border-radius: 20px;
 }
-section .mapa-title {
+
+.map-title {
     color: rgb(224 250 255);
     font-size: 2rem; /* 20px */
     font-family: "Alkatra", system-ui;
@@ -273,12 +291,15 @@ section .mapa-title {
     margin: 8px;
     width: 85%;
 }
-#botones-desplazamiento {
+
+/* Movement Controls */
+.movement-controls {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-#botones-desplazamiento button {
+
+.movement-controls button {
     font-size: 20px;
     padding: 16px;
     background-color: #000000cf;
@@ -287,43 +308,34 @@ section .mapa-title {
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s;
-  }
-.flechas:hover {
+}
+
+.movement-btn:hover {
     color: #fff;
     background: #000;
     transform: translateX(-2px);
     cursor: pointer;
 }
-.flechas {
+
+.movement-btn {
     font-size: xx-large;
     border: 5px white solid;
     margin: 2px;
 }
-.flechas:active {
+
+.movement-btn:active {
     transform: scale(0.95);
 }
-.video-fondo {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: -1;
-}
-.video-fondo video {
-    min-width: 100%;
-    min-height: 100%;
-    object-fit: cover;
-}
-#ver-mapa {
+
+/* Map Section */
+.map-section {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-#mapa {
+}
+
+.game-canvas {
     width: 90vw;
     max-width: 900px;
     height: calc(90vw * 0.75); /* Mantiene aspect ratio 4:3 */
@@ -336,19 +348,14 @@ section .mapa-title {
 
 /* Responsive para pantallas pequeñas */
 @media (max-width: 768px) {
-    #mapa {
+    .game-canvas {
         width: 95vw;
         height: calc(95vw * 0.75);
     }
 }
-input {
-    display: none;
-}
-input:checked + label {
-    background-color: black;    
-    border-color: black;
-}
-footer {
+
+/* Footer */
+.site-footer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -357,9 +364,47 @@ footer {
     color: white;
     font-family: "Poppins", sans-serif;
 }
-footer p {
+
+.footer-text {
     margin: 4px;
     text-align: center;
     color: var(--color-text);
     font-size: 1.6rem; /* 16px */
+}
+
+.footer-link {
+    color: var(--color-secundario);
+    text-decoration: underline;
+}
+
+.footer-link:hover {
+    color: white;
+}
+
+/* Video Background */
+.video-fondo {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.video-fondo video {
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+}
+
+/* Input Styles */
+input {
+    display: none;
+}
+
+input:checked + label {
+    background-color: black;    
+    border-color: black;
 }
