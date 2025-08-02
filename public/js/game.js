@@ -44,7 +44,8 @@ class Game {
                 upButton: document.getElementById("arriba"),
                 downButton: document.getElementById("abajo"),
                 leftButton: document.getElementById("izquierda"),
-                rightButton: document.getElementById("derecha")
+                rightButton: document.getElementById("derecha"),
+                selectedTitle: document.getElementById("subtituloTres")
             };
             
             // Verificar que todos los elementos existen
@@ -82,7 +83,7 @@ class Game {
         const elementsToHide = [
             'mapSection', 'gameEndSection',
             'messageSection', 'sectionCharacter',
-            'sectionPowers'
+            'sectionPowers', 'selectedTitle'
         ];
         
         elementsToHide.forEach(elementKey => {
@@ -436,6 +437,7 @@ class Game {
         this.elements.gameEndSection.style.display = 'flex';
         this.elements.sectionPowers.style.display = 'grid';
         this.elements.sectionCharacter.style.display = 'flex';
+        this.elements.selectedTitle.style.display = 'block';
         
         this.setupPowerEventListeners();
         console.log('Colisión detectada con:', enemy.name);

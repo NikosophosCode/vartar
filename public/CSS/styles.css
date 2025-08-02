@@ -27,31 +27,15 @@ header {
     width: 100%;
     height: 100px;
 }
-header h1 {
-    font-size: 2.5rem; /* 25px */
+h1 {
+    font-size: 3.2rem; /* 32px */
     text-align: center;
     color: rgb(0 0 0);
-    width: 82%;
-    height: 46%;
-    background-color: rgb(28 57 99 / 52%);
     font-family: "Merienda", cursive;
-    font-optical-sizing: auto;
-    border: 3px solid rgb(147, 143, 141);
     border-radius: 20px;
+    padding: 6px;
 }
-article h2 {
-    font-size: 2rem; /* 20px */
-    text-align: center;
-    color: var(--color-text);
-    width: 82%;
-    height: 46%;
-    background-color: var(--color-bg);
-    font-family: "Merienda", cursive;
-    font-optical-sizing: auto;
-    border: 3px solid var(--color-border);
-    border-radius: 20px;
-    margin: 8px;
-}
+
 main article {
     display: flex;
     flex-direction: column;
@@ -64,22 +48,19 @@ main article {
     font-size: 1.6rem; /* 16px */
     line-height: 1.5;
     color: var(--color-text);
-    border: var(--color-border) 2px solid;
     background: var(--color-bg);
+    padding: 6px;
 }
 
 .section-title {
     font-size: 2rem; /* 20px */
     text-align: center;
     color: var(--color-text);
-    width: 82%;
-    height: 46%;
     background-color: var(--color-bg);
     font-family: "Merienda", cursive;
-    font-optical-sizing: auto;
-    border: 3px solid var(--color-border);
     border-radius: 20px;
     margin: 8px;
+    padding: 5px;
 }
 
 /* Character Selection */
@@ -170,14 +151,11 @@ main article {
     width: 174px;
     height: 62px;
     background-color: #000000c2;
-    padding: 7px;
     box-sizing: border-box;
-    border: 3px solid rgb(119, 114, 153);
     font-family: "Poppins", sans-serif;
-    font-weight: 300;
-    font-style: normal;
-    font-size: x-large;
+    font-size: 2.5rem;
     border-radius: 35px;
+    margin: 6px;
 }
 
 .boton-de-poderes:active {
@@ -190,13 +168,13 @@ main article {
     grid-template-columns: 160px 160px;
     justify-content: space-around;
     text-align: center;
-    border: #000000e8 5px solid;
     font-size: xx-large;
     font-family: "Akaya Kanadaka", system-ui;
     font-weight: 400;
     font-style: normal;
     background-color: #e16161b5;
     border-radius: 24px;
+    margin: 16px;
 }
 
 /* Game Result Messages */
@@ -285,17 +263,12 @@ main article {
     color: #8577bd;
 }
 
-.enemy-power {
-    border-bottom: 4px solid;
-}
-
 /* Titles and Subtitles */
 .power-selection-title {
     color: rgb(224 250 255);
     width: 210px;
-    font-size: xx-large;
+    font-size: 2.8rem; /* 28px */
     font-family: "Alkatra", system-ui;
-    border: 2px solid #d589d5;
     background-color: #000000a6;
     border-radius: 20px;
     margin: 16px; 
@@ -304,17 +277,12 @@ main article {
 
 .combat-title {
     color: rgb(224 250 255);
-    height: 60px;
-    width: 348px;
-    font-size: xx-large;
-    font-family: "Alkatra", system-ui;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-    border: 2px solid #d589d5;
+    font-size: 3rem;
+    font-family: "Alkatra", system-ui;    
     background-color: #000000a6;
     border-radius: 20px;
     margin: 16px;
+    text-align: center;
 }
 
 .map-title {
