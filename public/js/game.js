@@ -224,6 +224,23 @@ class Game {
         this.elements.playerCharacterSpan.appendChild(img);
     }
     
+    displayEnemyCharacter(enemy) {
+        try {
+            // Limpiar cualquier imagen previa del enemigo
+            this.elements.enemyCharacterSpan.innerHTML = '';
+            
+            const img = document.createElement('img');
+            img.id = 'enemy-character-image';
+            img.className = 'selected-character';
+            img.src = enemy.image;
+            img.alt = enemy.name;
+            this.elements.enemyCharacterSpan.appendChild(img);
+            
+        } catch (error) {
+            ErrorHandler.logError(error, 'Game.displayEnemyCharacter');
+        }
+    }
+    
     renderPlayerPowers() {
         try {
             this.selectedCharacter.powers.forEach(power => {
@@ -404,6 +421,7 @@ class Game {
     
     handleCollision(enemy) {
         this.renderPlayerPowers();
+        this.displayEnemyCharacter(enemy);
         this.stopMovement();
         clearInterval(this.gameInterval);
         this.enemyId = enemy.id;
