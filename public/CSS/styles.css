@@ -249,7 +249,7 @@ article ul li {
     padding-left: 16px;
     padding-top: 4px;
 }
-#subtituloTres {
+.subtitulo-personajes {
     color: rgb(224 250 255);
     height: 60px;
     width: 348px;
@@ -261,10 +261,6 @@ article ul li {
     border: 2px solid #d589d5;
     background-color: #000000a6;
     border-radius: 20px;
-    margin-right: 5px;
-    margin-left: 534px;
-    padding-left: 16px;
-    padding-top: 4px;
 }
 section .mapa-title {
     color: rgb(224 250 255);
