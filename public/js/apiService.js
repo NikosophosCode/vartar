@@ -1,6 +1,8 @@
 class APIService {
     static async request(endpoint, options = {}) {
         const url = `${Config.SERVER.BASE_URL}${endpoint}`;
+        console.log('🌐 API: Realizando petición a:', url);
+        
         const defaultOptions = {
             headers: {
                 'Content-Type': 'application/json'
@@ -11,18 +13,24 @@ class APIService {
         
         try {
             const response = await fetch(url, mergedOptions);
+            console.log('📡 API: Respuesta recibida:', response.status, response.statusText);
             
             if (!response.ok) {
-                throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
+                throw new Error(`HTTP Error: ${response.status} - ${response.statusText} para URL: ${url}`);
             }
             
             const contentType = response.headers.get('content-type');
             if (contentType && contentType.includes('application/json')) {
-                return await response.json();
+                const data = await response.json();
+                console.log('✅ API: Datos JSON recibidos:', data);
+                return data;
             } else {
-                return await response.text();
+                const text = await response.text();
+                console.log('✅ API: Texto recibido:', text);
+                return text;
             }
         } catch (error) {
+            console.error('❌ API: Error en petición:', error.message);
             ErrorHandler.logError(error, `API Request: ${endpoint}`);
             throw error;
         }

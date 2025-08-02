@@ -3,6 +3,11 @@ const cors = require("cors")
 const app = express()
 const jugadores = []
 
+// Middleware para logging de requests
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url} - IP: ${req.ip}`)
+    next()
+})
 
 app.use(express.static("public"))
 app.use(cors())
@@ -81,12 +86,6 @@ app.get("/vartar/:idJugador/poderes", (req, res) => {
     res.send( {
          ataques: jugador.ataques
     })
-})
-
-// Middleware para logging de requests
-app.use((req, res, next) => {
-    console.log(`${new Date().toISOString()} - ${req.method} ${req.url} - IP: ${req.ip}`)
-    next()
 })
 
 app.listen(8080, '0.0.0.0', () => {

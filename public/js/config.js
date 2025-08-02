@@ -1,6 +1,14 @@
 const Config = {
     SERVER: {
-        BASE_URL: 'http://localhost:8080',
+        // Detectar automáticamente la URL base según el host
+        BASE_URL: (() => {
+            const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                ? 'http://localhost:8080' 
+                : `http://${window.location.hostname}:8080`;
+            console.log('🔗 Config: URL base detectada:', baseUrl);
+            console.log('🌐 Config: Hostname actual:', window.location.hostname);
+            return baseUrl;
+        })(),
         ENDPOINTS: {
             USERS: '/users',
             VARTAR: '/vartar',
