@@ -28,7 +28,7 @@ header {
     height: 100px;
 }
 header h1 {
-    font-size: 2.5rem; /* 30px */
+    font-size: 2.5rem; /* 25px */
     text-align: center;
     color: rgb(0 0 0);
     width: 82%;
@@ -251,19 +251,14 @@ main article {
 /* Titles and Subtitles */
 .power-selection-title {
     color: rgb(224 250 255);
-    height: 60px;
     width: 210px;
     font-size: xx-large;
     font-family: "Alkatra", system-ui;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
     border: 2px solid #d589d5;
     background-color: #000000a6;
     border-radius: 20px;
-    margin-right: 5px;
-    padding-left: 16px;
-    padding-top: 4px;
+    margin: 16px; 
+    text-align: center;
 }
 
 .combat-title {
@@ -278,6 +273,7 @@ main article {
     border: 2px solid #d589d5;
     background-color: #000000a6;
     border-radius: 20px;
+    margin: 16px;
 }
 
 .map-title {
