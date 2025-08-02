@@ -158,6 +158,12 @@ main article {
     height: 120px;
 }
 
+.power-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
 /* Power System */
 .boton-de-poderes {
     color: rgb(255 255 255);

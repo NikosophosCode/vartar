@@ -12,6 +12,7 @@ class Game {
         this.gameInterval = null;
         this.powerInterval = null;
         this.backgroundMap = new Image();
+        this.combatProcessed = false; // Nuevo: evitar procesamiento múltiple de combate
         
         this.initializeElements();
         this.initializeMap();
@@ -242,6 +243,9 @@ class Game {
     
     renderPlayerPowers() {
         try {
+            // Limpiar botones de poderes anteriores
+            this.elements.powerButtons.innerHTML = '';
+            
             this.selectedCharacter.powers.forEach(power => {
                 const powerButton = document.createElement('button');
                 powerButton.id = power.id;
@@ -417,6 +421,11 @@ class Game {
     }
     
     handleCollision(enemy) {
+        // Evitar múltiples colisiones con el mismo enemigo
+        if (this.enemyId === enemy.id) {
+            return; // Ya estamos en combate con este enemigo
+        }
+        
         this.renderPlayerPowers();
         this.displayEnemyCharacter(enemy);
         this.stopMovement();
@@ -473,8 +482,18 @@ class Game {
     
     processCombat() {
         try {
+            // Evitar procesamiento múltiple del combate
+            if (this.combatProcessed) {
+                return;
+            }
+            this.combatProcessed = true;
+            
             this.playerVictories = 0;
             this.enemyVictories = 0;
+            
+            // Limpiar contenedores de poderes anteriores
+            this.elements.playerPowerSpan.innerHTML = '';
+            this.elements.enemyPowerSpan.innerHTML = '';
             
             for (let i = 0; i < this.playerPowers.length; i++) {
                 const playerPower = this.playerPowers[i];
@@ -542,6 +561,12 @@ class Game {
     }
     
     displayFinalMessage(message, resultType, uniqueId) {
+        // Verificar si ya existe un mensaje para evitar duplicados
+        const existingMessage = document.getElementById(uniqueId);
+        if (existingMessage) {
+            return; // Ya existe el mensaje, no agregar otro
+        }
+        
         this.elements.messageSection.style.display = 'flex';
         
         const messageElement = document.createElement('h2');
