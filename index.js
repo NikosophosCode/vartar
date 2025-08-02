@@ -82,6 +82,19 @@ app.get("/vartar/:idJugador/poderes", (req, res) => {
          ataques: jugador.ataques
     })
 })
-app.listen(3000, () => {
-    console.log("Servidor activado")
+
+// Middleware para logging de requests
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url} - IP: ${req.ip}`)
+    next()
+})
+
+app.listen(8080, '0.0.0.0', () => {
+    console.log("===========================================")
+    console.log("Servidor Vartar iniciado correctamente")
+    console.log("Puerto: 8080")
+    console.log("Accesible desde:")
+    console.log("- Local: http://localhost:8080")
+    console.log("- Red: http://192.168.20.33:8080")
+    console.log("===========================================")
 })
