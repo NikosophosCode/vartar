@@ -13,14 +13,18 @@ class Game {
         this.powerInterval = null;
         this.backgroundMap = new Image();
         this.combatProcessed = false; // Nuevo: evitar procesamiento múltiple de combate
-        
+        this.touchControls = null;
+        this.gameState = 'character-selection'; // Estado inicial del juego
+        this.playerCharacter = null; // Referencia al personaje del jugador
+        this.lastEnemyUpdate = 0; // Para throttling de actualizaciones de enemigos
+
         this.initializeElements();
         this.initializeMap();
         this.initializeCharacters();
         this.initializeEventListeners();
         this.joinServer();
     }
-    
+
     initializeElements() {
         try {
             this.elements = {
@@ -47,52 +51,59 @@ class Game {
                 rightButton: document.getElementById("derecha"),
                 selectedTitle: document.getElementById("subtituloTres")
             };
-            
+
             // Verificar que todos los elementos existen
             Object.entries(this.elements).forEach(([key, element]) => {
                 if (!element) {
                     throw new Error(`Elemento no encontrado: ${key}`);
                 }
             });
+
+            this.canvas = this.elements.map;
+            this.ctx = this.elements.map.getContext('2d');
             
-            this.canvas = this.elements.map.getContext('2d');
+            // Verificar que el contexto se haya creado correctamente
+            if (!this.ctx) {
+                throw new Error('No se pudo obtener el contexto 2D del canvas');
+            }
+            
             this.setupMapDimensions();
             this.hideInitialElements();
-            
+
         } catch (error) {
             ErrorHandler.logError(error, 'Game.initializeElements');
             ErrorHandler.showUserError('Error al inicializar elementos del juego');
         }
     }
-    
+
     setupMapDimensions() {
         // Obtener dimensiones del CSS computado
         const computedStyle = window.getComputedStyle(this.elements.map);
         const width = parseInt(computedStyle.width);
         const height = parseInt(computedStyle.height);
-        
+
         // Establecer dimensiones del canvas
         this.elements.map.width = width;
         this.elements.map.height = height;
-        
+
         // Guardar dimensiones para uso posterior
         this.mapDimensions = { width, height };
     }
-    
+
     hideInitialElements() {
         const elementsToHide = [
             'mapSection', 'gameEndSection',
             'messageSection', 'sectionCharacter',
             'sectionPowers', 'selectedTitle'
         ];
-        
+
         elementsToHide.forEach(elementKey => {
             if (this.elements[elementKey]) {
                 this.elements[elementKey].style.display = "none";
             }
         });
     }
-    
+
     initializeMap() {
         try {
             this.backgroundMap.src = "./assets/mapa.jpg";
@@ -103,7 +114,7 @@ class Game {
             ErrorHandler.logError(error, 'Game.initializeMap');
         }
     }
-    
+
     initializeCharacters() {
         try {
             const characterData = [
@@ -116,7 +127,7 @@ class Game {
                 { name: 'limbre', powers: ['AIRE ☁', 'AIRE ☁', 'AIRE ☁', 'TIERRA 🌎', 'FUEGO 🔥', 'AGUA 💧'] },
                 { name: 'iroki', powers: ['AGUA 💧', 'AGUA 💧', 'AGUA 💧', 'TIERRA 🌎', 'FUEGO 🔥', 'AIRE ☁'] }
             ];
-            
+
             this.characters = characterData.map(data => {
                 const character = Character.createFromData(data);
                 if (character) {
@@ -124,14 +135,14 @@ class Game {
                 }
                 return character;
             }).filter(character => character !== null);
-            
+
             this.renderCharacterSelection();
-            
+
         } catch (error) {
             ErrorHandler.logError(error, 'Game.initializeCharacters');
         }
     }
-    
+
     renderCharacterSelection() {
         try {
             this.characters.forEach(character => {
@@ -147,19 +158,19 @@ class Game {
             ErrorHandler.logError(error, 'Game.renderCharacterSelection');
         }
     }
-    
+
     initializeEventListeners() {
         try {
             // Botón seleccionar personaje
             this.elements.characterSelectButton.addEventListener('click', () => this.selectPlayerCharacter());
-            
+
             // Botón reiniciar
             this.elements.restartButton.addEventListener('click', () => this.restartGame());
-            
+
             // Eventos de teclado
             window.addEventListener('keydown', (event) => this.handleKeyDown(event));
             window.addEventListener('keyup', () => this.stopMovement());
-            
+
             // Botones de dirección
             const directionButtons = [
                 { element: this.elements.upButton, direction: 'up' },
@@ -167,19 +178,19 @@ class Game {
                 { element: this.elements.leftButton, direction: 'left' },
                 { element: this.elements.rightButton, direction: 'right' }
             ];
-            
+
             directionButtons.forEach(({ element, direction }) => {
                 element.addEventListener('mousedown', (e) => this.moveCharacter(e, direction));
                 element.addEventListener('mouseup', () => this.stopMovement());
                 element.addEventListener('touchstart', (e) => this.moveCharacter(e, direction));
                 element.addEventListener('touchend', () => this.stopMovement());
             });
-            
+
         } catch (error) {
             ErrorHandler.logError(error, 'Game.initializeEventListeners');
         }
     }
-    
+
     async joinServer() {
         try {
             this.playerId = await APIService.joinServer();
@@ -188,34 +199,34 @@ class Game {
             ErrorHandler.showUserError('No se pudo conectar al servidor');
         }
     }
-    
+
     async selectPlayerCharacter() {
         try {
             const selectedInput = document.querySelector('input[name="personaje"]:checked');
-            
+
             if (!selectedInput) {
                 ErrorHandler.showUserError('¡Selecciona un personaje!');
                 return;
             }
-            
+
             const characterName = selectedInput.id;
             this.selectedCharacter = this.characters.find(char => char.name === characterName);
-            
+
             if (!this.selectedCharacter) {
                 throw new Error(`Personaje no encontrado: ${characterName}`);
             }
-            
+
             this.displaySelectedCharacter();
-            
+
             await APIService.sendCharacter(this.playerId, characterName);
             this.startGame();
-            
+
         } catch (error) {
             ErrorHandler.logError(error, 'Game.selectPlayerCharacter');
             ErrorHandler.showUserError('Error al seleccionar personaje');
         }
     }
-    
+
     displaySelectedCharacter() {
         const img = document.createElement('img');
         img.id = 'selected-character-image';
@@ -224,29 +235,29 @@ class Game {
         img.alt = this.selectedCharacter.name;
         this.elements.playerCharacterSpan.appendChild(img);
     }
-    
+
     displayEnemyCharacter(enemy) {
         try {
             // Limpiar cualquier imagen previa del enemigo
             this.elements.enemyCharacterSpan.innerHTML = '';
-            
+
             const img = document.createElement('img');
             img.id = 'enemy-character-image';
             img.className = 'selected-character';
             img.src = enemy.image;
             img.alt = enemy.name;
             this.elements.enemyCharacterSpan.appendChild(img);
-            
+
         } catch (error) {
             ErrorHandler.logError(error, 'Game.displayEnemyCharacter');
         }
     }
-    
+
     renderPlayerPowers() {
         try {
             // Limpiar botones de poderes anteriores
             this.elements.powerButtons.innerHTML = '';
-            
+
             this.selectedCharacter.powers.forEach(power => {
                 const powerButton = document.createElement('button');
                 powerButton.id = power.id;
@@ -254,44 +265,44 @@ class Game {
                 powerButton.textContent = power.name;
                 this.elements.powerButtons.appendChild(powerButton);
             });
-            
+
             this.setupPowerEventListeners();
-            
+
         } catch (error) {
             ErrorHandler.logError(error, 'Game.renderPlayerPowers');
         }
     }
-    
+
     setupPowerEventListeners() {
         const powerButtons = document.querySelectorAll('.botonPoderes');
-        
+
         powerButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 this.selectPower(e.target);
             });
         });
     }
-    
+
     selectPower(button) {
         try {
             if (button.disabled || this.playerPowers.length >= 6) {
                 return;
             }
-            
+
             this.playerPowers.push(button.textContent);
             button.style.background = '#0000007d';
             button.style.color = '#2a2323';
             button.disabled = true;
-            
+
             if (this.playerPowers.length === 6) {
                 this.sendPlayerPowers();
             }
-            
+
         } catch (error) {
             ErrorHandler.logError(error, 'Game.selectPower');
         }
     }
-    
+
     async sendPlayerPowers() {
         try {
             await APIService.sendPowers(this.playerId, this.playerPowers);
@@ -300,11 +311,11 @@ class Game {
             ErrorHandler.logError(error, 'Game.sendPlayerPowers');
         }
     }
-    
+
     async getEnemyPowers() {
         try {
             const response = await APIService.getEnemyPowers(this.enemyId);
-            
+
             if (response.ataques && response.ataques.length === 6) {
                 this.enemyPowers = response.ataques;
                 clearInterval(this.powerInterval);
@@ -314,53 +325,98 @@ class Game {
             ErrorHandler.logError(error, 'Game.getEnemyPowers');
         }
     }
-    
+
     startGame() {
+        this.gameState = 'map';
+        this.playerCharacter = this.selectedCharacter; // Asignar referencia del personaje
+        
         this.elements.mapSection.style.display = 'flex';
         this.elements.characterSection.style.display = 'none';
         this.elements.divButtonCharacter.style.display = 'none';
+        
+        this.initializeMapState();
         this.gameInterval = setInterval(() => this.updateGame(), Config.UI.UPDATE_INTERVAL);
     }
-    
-    updateGame() {
-        try {
-            this.clearCanvas();
-            this.drawBackground();
-            this.updatePlayerCharacter();
-            this.drawEnemies();
-        } catch (error) {
-            ErrorHandler.logError(error, 'Game.updateGame');
+
+    initializeMapState() {
+        // Inicializar controles táctiles
+        if (this.canvas && this.playerCharacter) {
+            this.touchControls = new TouchControls(this.canvas, this.playerCharacter);
+        }
+
+        // Ocultar botones físicos en dispositivos táctiles
+        this.hidePhysicalButtonsOnTouch();
+    }
+
+    hidePhysicalButtonsOnTouch() {
+        const movementControls = document.getElementById('botones-desplazamiento');
+
+        // Detectar si es dispositivo táctil
+        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+            movementControls.style.display = 'none';
         }
     }
-    
-    clearCanvas() {
-        this.canvas.clearRect(0, 0, this.elements.map.width, this.elements.map.height);
+
+    updateGame() {
+        if (this.gameState !== 'map') return;
+
+        this.clearCanvas();
+        this.drawBackground();
+
+        // Actualizar posición del personaje si se está moviendo
+        if (this.playerCharacter) {
+            this.playerCharacter.updatePosition();
+            this.updatePlayerCharacter();
+        }
+
+        // Actualizar enemigos desde el servidor (throttled a cada 200ms)
+        const now = Date.now();
+        if (now - this.lastEnemyUpdate > 200) {
+            this.updatePlayerPosition();
+            this.lastEnemyUpdate = now;
+        }
+
+        this.drawEnemies();
+
+        // Dibujar guías táctiles opcionales (solo durante desarrollo)
+        if (this.touchControls && Config.DEBUG?.SHOW_TOUCH_GUIDES) {
+            this.touchControls.drawTouchGuides(this.ctx);
+        }
     }
-    
+
+    clearCanvas() {
+        this.ctx.clearRect(0, 0, this.elements.map.width, this.elements.map.height);
+    }
+
     drawBackground() {
         if (this.backgroundMap.complete) {
-            this.canvas.drawImage(
+            this.ctx.drawImage(
                 this.backgroundMap,
                 0, 0,
                 this.elements.map.width,
                 this.elements.map.height
             );
+        } else {
+            // Dibujar un fondo temporal mientras carga la imagen
+            this.ctx.fillStyle = '#2d5016';
+            this.ctx.fillRect(0, 0, this.elements.map.width, this.elements.map.height);
         }
     }
-    
+
     updatePlayerCharacter() {
-        if (this.selectedCharacter) {
-            this.selectedCharacter.move(this.mapDimensions);
-            this.selectedCharacter.draw(this.canvas);
-            this.updatePlayerPosition();
+        if (this.playerCharacter) {
+            this.playerCharacter.move(this.mapDimensions);
+            this.playerCharacter.draw(this.ctx);
         }
     }
-    
+
     async updatePlayerPosition() {
         try {
-            const { x, y } = this.selectedCharacter.position;
-            const response = await APIService.sendPosition(this.playerId, x, y);
+            if (!this.playerCharacter) return;
             
+            const { x, y } = this.playerCharacter.position;
+            const response = await APIService.sendPosition(this.playerId, x, y);
+
             if (response.enemigos) {
                 this.updateEnemies(response.enemigos);
             }
@@ -368,51 +424,72 @@ class Game {
             ErrorHandler.logError(error, 'Game.updatePlayerPosition');
         }
     }
-    
+
     updateEnemies(enemiesData) {
         try {
+            console.log('📡 Datos de enemigos recibidos:', enemiesData); // Debug log
+            
             this.enemies = enemiesData
-                .filter(enemy => enemy.personaje != null)
+                .filter(enemy => {
+                    // Verificar que el enemigo tenga datos válidos
+                    const hasCharacter = enemy.personaje != null;
+                    const hasPosition = typeof enemy.x === 'number' && typeof enemy.y === 'number';
+                    const isNotSelf = enemy.id !== this.playerId;
+                    
+                    console.log(`👤 Enemigo ${enemy.id}:`, { hasCharacter, hasPosition, isNotSelf }); // Debug log
+                    
+                    return hasCharacter && hasPosition && isNotSelf;
+                })
                 .map(enemy => {
+                    const characterName = enemy.personaje.nombre || enemy.personaje;
+                    console.log(`🎭 Creando personaje enemigo: ${characterName} en (${enemy.x}, ${enemy.y})`); // Debug log
+                    
                     const character = Character.createFromData({
-                        name: enemy.personaje.nombre || enemy.personaje,
+                        name: characterName,
                         id: enemy.id
                     });
-                    
+
                     if (character) {
                         character.position.x = enemy.x;
                         character.position.y = enemy.y;
+                        console.log(`✅ Enemigo creado: ${character.name} en posición (${character.position.x}, ${character.position.y})`);
+                    } else {
+                        console.error(`❌ No se pudo crear el personaje enemigo: ${characterName}`);
                     }
-                    
+
                     return character;
                 })
                 .filter(enemy => enemy !== null);
+                
+            console.log(`🎯 Total de enemigos válidos: ${this.enemies.length}`); // Debug log
         } catch (error) {
             ErrorHandler.logError(error, 'Game.updateEnemies');
         }
     }
-    
+
     drawEnemies() {
-        this.enemies.forEach(enemy => {
-            enemy.draw(this.canvas);
+        console.log(`🎮 Dibujando ${this.enemies.length} enemigos`); // Debug log
+        this.enemies.forEach((enemy, index) => {
+            console.log(`👻 Enemigo ${index}: ${enemy.name} en (${enemy.position.x}, ${enemy.position.y})`);
+            enemy.draw(this.ctx);
             this.checkCollision(enemy);
         });
     }
-    
+
     checkCollision(enemy) {
         try {
-            if (!this.selectedCharacter) return;
-            
-            const playerBounds = this.selectedCharacter.getBounds();
+            if (!this.playerCharacter) return;
+
+            const playerBounds = this.playerCharacter.getBounds();
             const enemyBounds = enemy.getBounds();
-            
+
             const collision = !(
                 playerBounds.bottom < enemyBounds.top ||
                 playerBounds.top > enemyBounds.bottom ||
                 playerBounds.right < enemyBounds.left ||
                 playerBounds.left > enemyBounds.right
             );
-            
+
             if (collision) {
                 this.handleCollision(enemy);
             }
@@ -420,34 +497,34 @@ class Game {
             ErrorHandler.logError(error, 'Game.checkCollision');
         }
     }
-    
+
     handleCollision(enemy) {
         // Evitar múltiples colisiones con el mismo enemigo
         if (this.enemyId === enemy.id) {
             return; // Ya estamos en combate con este enemigo
         }
-        
+
         this.renderPlayerPowers();
         this.displayEnemyCharacter(enemy);
         this.stopMovement();
         clearInterval(this.gameInterval);
         this.enemyId = enemy.id;
-        
+
         this.elements.mapSection.style.display = 'none';
         this.elements.gameEndSection.style.display = 'flex';
         this.elements.sectionPowers.style.display = 'grid';
         this.elements.sectionCharacter.style.display = 'flex';
         this.elements.selectedTitle.style.display = 'block';
-        
+
         this.setupPowerEventListeners();
         console.log('Colisión detectada con:', enemy.name);
     }
-    
+
     moveCharacter(event, direction) {
         event.preventDefault();
-        
+
         if (!this.selectedCharacter) return;
-        
+
         const speed = Config.GAME.PLAYER.SPEED;
         const movements = {
             up: [0, -speed],
@@ -455,33 +532,33 @@ class Game {
             left: [-speed, 0],
             right: [speed, 0]
         };
-        
+
         const [x, y] = movements[direction] || [0, 0];
         this.selectedCharacter.setVelocity(x, y);
     }
-    
+
     handleKeyDown(event) {
         if (!this.selectedCharacter) return;
-        
+
         const keyMappings = {
             'ArrowUp': 'up',
             'ArrowDown': 'down',
             'ArrowLeft': 'left',
             'ArrowRight': 'right'
         };
-        
+
         const direction = keyMappings[event.key];
         if (direction) {
             this.moveCharacter(event, direction);
         }
     }
-    
+
     stopMovement() {
         if (this.selectedCharacter) {
             this.selectedCharacter.stop();
         }
     }
-    
+
     processCombat() {
         try {
             // Evitar procesamiento múltiple del combate
@@ -489,18 +566,18 @@ class Game {
                 return;
             }
             this.combatProcessed = true;
-            
+
             this.playerVictories = 0;
             this.enemyVictories = 0;
-            
+
             // Limpiar contenedores de poderes anteriores
             this.elements.playerPowerSpan.innerHTML = '';
             this.elements.enemyPowerSpan.innerHTML = '';
-            
+
             for (let i = 0; i < this.playerPowers.length; i++) {
                 const playerPower = this.playerPowers[i];
                 const enemyPower = this.enemyPowers[i];
-                
+
                 if (playerPower === enemyPower) {
                     // Empate
                 } else if (this.isPlayerWinning(playerPower, enemyPower)) {
@@ -508,43 +585,43 @@ class Game {
                 } else {
                     this.enemyVictories++;
                 }
-                
+
                 this.displayCombatRound(playerPower, enemyPower);
             }
-            
+
             this.updateScoreDisplay();
             this.showFinalResult();
-            
+
         } catch (error) {
             ErrorHandler.logError(error, 'Game.processCombat');
         }
     }
-    
+
     isPlayerWinning(playerPower, enemyPower) {
         return Config.GAME.POWER_COMBINATIONS.WINNING.some(
             ([winner, loser]) => playerPower === winner && enemyPower === loser
         );
     }
-    
+
     displayCombatRound(playerPower, enemyPower) {
         const playerP = document.createElement('p');
         const enemyP = document.createElement('p');
-        
+
         playerP.textContent = playerPower;
         enemyP.textContent = enemyPower;
-        
+
         this.elements.playerPowerSpan.appendChild(playerP);
         this.elements.enemyPowerSpan.appendChild(enemyP);
     }
-    
+
     updateScoreDisplay() {
         this.elements.playerLivesSpan.textContent = this.playerVictories;
         this.elements.enemyLivesSpan.textContent = this.enemyVictories;
     }
-    
+
     showFinalResult() {
         let message, resultType, uniqueId;
-        
+
         if (this.playerVictories > this.enemyVictories) {
             message = '¡ENHORABUENA HAS GANADO!🎉';
             resultType = 'victory';
@@ -558,35 +635,35 @@ class Game {
             resultType = 'draw';
             uniqueId = 'draw-message';
         }
-        
+
         this.displayFinalMessage(message, resultType, uniqueId);
     }
-    
+
     displayFinalMessage(message, resultType, uniqueId) {
         // Verificar si ya existe un mensaje para evitar duplicados
         const existingMessage = document.getElementById(uniqueId);
         if (existingMessage) {
             return; // Ya existe el mensaje, no agregar otro
         }
-        
+
         this.elements.messageSection.style.display = 'flex';
-        
+
         const messageElement = document.createElement('h2');
         messageElement.id = uniqueId;
         messageElement.className = `game-result-message game-result-message--${resultType}`;
         messageElement.textContent = message;
         this.elements.messageSection.appendChild(messageElement);
-        
+
         this.disableAllPowerButtons();
     }
-    
+
     disableAllPowerButtons() {
         const powerButtons = document.querySelectorAll('.botonPoderes');
         powerButtons.forEach(button => {
             button.disabled = true;
         });
     }
-    
+
     restartGame() {
         try {
             location.reload();

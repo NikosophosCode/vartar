@@ -41,11 +41,16 @@ const Config = {
         PLAYER: {
             SPEED: 5,
             SIZE: 80 // Tamaño fijo en píxeles
-        }
+        },
+        MOVEMENT_SPEED: 5 // Velocidad de movimiento en píxeles
     },
     
     UI: {
         UPDATE_INTERVAL: 50,
         COLLISION_MARGIN: 10
+    },
+    
+    DEBUG: {
+        SHOW_TOUCH_GUIDES: true // Cambiar a true para ver las guías y debug
     }
 };
