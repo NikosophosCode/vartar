@@ -19,6 +19,10 @@ class Character {
         };
         
         this.initializePosition();
+        
+        this.isMoving = false;
+        this.movementDirection = null;
+        this.movementSpeed = Config.GAME.MOVEMENT_SPEED || 3;
     }
     
     initializePosition() {
@@ -91,6 +95,56 @@ class Character {
         };
     }
     
+    startMovement(direction) {
+        this.isMoving = true;
+        this.movementDirection = direction;
+    }
+
+    stopMovement() {
+        this.isMoving = false;
+        this.movementDirection = null;
+    }
+
+    updatePosition() {
+        if (!this.isMoving || !this.movementDirection) return;
+
+        const oldX = this.position.x;
+        const oldY = this.position.y;
+
+        switch (this.movementDirection) {
+            case 'arriba':
+                this.position.y -= this.movementSpeed;
+                break;
+            case 'abajo':
+                this.position.y += this.movementSpeed;
+                break;
+            case 'izquierda':
+                this.position.x -= this.movementSpeed;
+                break;
+            case 'derecha':
+                this.position.x += this.movementSpeed;
+                break;
+        }
+
+        // Aplicar límites de movimiento
+        this.applyBoundaries();
+
+        // Si la posición cambió, guardar para la próxima actualización al servidor
+        if (this.position.x !== oldX || this.position.y !== oldY) {
+            this.positionChanged = true;
+        }
+    }
+
+    applyBoundaries() {
+        // Obtener dimensiones del juego desde la instancia global
+        const mapDimensions = window.game ? window.game.mapDimensions : null;
+        
+        if (mapDimensions) {
+            this.position.x = Math.max(0, Math.min(this.position.x, mapDimensions.width - this.size.width));
+            this.position.y = Math.max(0, Math.min(this.position.y, mapDimensions.height - this.size.height));
+        }
+    }
+
     static createFromData(characterData) {
         const characterMap = {
             'sinji': ['./assets/sinji.jpg', './assets/sinjimini.webp'],
