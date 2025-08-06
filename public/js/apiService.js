@@ -173,4 +173,45 @@ class APIService {
             'Obtener poderes del enemigo'
         );
     }
+    
+    // Nuevos métodos para manejo de colisiones bilaterales
+    static async requestCollision(playerId, enemyId, playerPos, enemyPos) {
+        console.log('🚨 APIService: Solicitando colisión bilateral:', { playerId, enemyId });
+        
+        return ErrorHandler.handleAsyncError(
+            this.request(`${Config.SERVER.ENDPOINTS.VARTAR}/${playerId}/colision`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    enemyId: enemyId,
+                    playerX: Math.round(playerPos.x),
+                    playerY: Math.round(playerPos.y),
+                    enemyX: Math.round(enemyPos.x),
+                    enemyY: Math.round(enemyPos.y)
+                })
+            }),
+            'Solicitar colisión'
+        );
+    }
+    
+    static async confirmCombat(playerId) {
+        console.log('⚔️ APIService: Confirmando entrada a combate:', playerId);
+        
+        return ErrorHandler.handleAsyncError(
+            this.request(`${Config.SERVER.ENDPOINTS.VARTAR}/${playerId}/combate`, {
+                method: 'POST'
+            }),
+            'Confirmar combate'
+        );
+    }
+    
+    static async finalizeCombat(playerId) {
+        console.log('🏁 APIService: Finalizando combate:', playerId);
+        
+        return ErrorHandler.handleAsyncError(
+            this.request(`${Config.SERVER.ENDPOINTS.VARTAR}/${playerId}/finalizar-combate`, {
+                method: 'POST'
+            }),
+            'Finalizar combate'
+        );
+    }
 }
