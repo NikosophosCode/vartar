@@ -40,13 +40,15 @@ const Config = {
         
         PLAYER: {
             SPEED: 5,
-            SIZE: 80 // Tamaño fijo en píxeles
+            SIZE: 80, // Tamaño fijo en píxeles
+            INTERPOLATION_SPEED: 0.15 // Velocidad de interpolación para enemigos
         },
         MOVEMENT_SPEED: 5 // Velocidad de movimiento en píxeles
     },
     
     UI: {
-        UPDATE_INTERVAL: 50,
+        UPDATE_INTERVAL: 16, // ~60fps para renderizado suave
+        NETWORK_UPDATE_INTERVAL: 100, // Actualizaciones de red cada 100ms
         COLLISION_MARGIN: 10
     },
     

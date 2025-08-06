@@ -17,6 +17,8 @@ class Game {
         this.gameState = 'character-selection'; // Estado inicial del juego
         this.playerCharacter = null; // Referencia al personaje del jugador
         this.lastEnemyUpdate = 0; // Para throttling de actualizaciones de enemigos
+        this.lastNetworkUpdate = 0; // Para throttling de peticiones de red
+        this.enemyPositionCache = new Map(); // Cache de posiciones de enemigos
 
         this.initializeElements();
         this.initializeMap();
@@ -369,11 +371,14 @@ class Game {
             this.updatePlayerCharacter();
         }
 
-        // Actualizar enemigos desde el servidor (throttled a cada 200ms)
+        // Actualizar interpolación de enemigos (cada frame para suavidad)
+        this.updateEnemyInterpolation();
+        
+        // Actualizar enemigos desde el servidor (throttled)
         const now = Date.now();
-        if (now - this.lastEnemyUpdate > 200) {
+        if (now - this.lastNetworkUpdate > Config.UI.NETWORK_UPDATE_INTERVAL) {
             this.updatePlayerPosition();
-            this.lastEnemyUpdate = now;
+            this.lastNetworkUpdate = now;
         }
 
         this.drawEnemies();
@@ -382,6 +387,15 @@ class Game {
         if (this.touchControls && Config.DEBUG?.SHOW_TOUCH_GUIDES) {
             this.touchControls.drawTouchGuides(this.ctx);
         }
+    }
+    
+    updateEnemyInterpolation() {
+        // Actualizar interpolación de todos los enemigos
+        this.enemies.forEach(enemy => {
+            if (enemy.updateInterpolation) {
+                enemy.updateInterpolation();
+            }
+        });
     }
 
     clearCanvas() {
@@ -417,60 +431,93 @@ class Game {
             const { x, y } = this.playerCharacter.position;
             const response = await APIService.sendPosition(this.playerId, x, y);
 
-            if (response.enemigos) {
+            // Guardar respuesta para uso futuro
+            if (response && response.enemigos) {
+                APIService.lastPositionResponse = response;
                 this.updateEnemies(response.enemigos);
             }
         } catch (error) {
-            ErrorHandler.logError(error, 'Game.updatePlayerPosition');
+            // Solo logear errores críticos, no errores de red temporales
+            if (error.message.includes('HTTP Error: 5') || 
+                !error.message.includes('Failed to fetch')) {
+                ErrorHandler.logError(error, 'Game.updatePlayerPosition');
+            }
+            
+            // Mostrar indicador de conexión si es apropiado
+            if (APIService.getConnectionStatus() === 'offline') {
+                this.showConnectionStatus(false);
+            }
+        }
+    }
+    
+    showConnectionStatus(isOnline) {
+        // Método para mostrar estado de conexión (opcional)
+        const statusElement = document.getElementById('connection-status');
+        if (statusElement) {
+            statusElement.textContent = isOnline ? '🟢 Conectado' : '🔴 Desconectado';
+            statusElement.style.display = 'block';
+            
+            if (isOnline) {
+                setTimeout(() => {
+                    statusElement.style.display = 'none';
+                }, 2000);
+            }
         }
     }
 
     updateEnemies(enemiesData) {
         try {
-            console.log('📡 Datos de enemigos recibidos:', enemiesData); // Debug log
+            console.log('📡 Datos de enemigos recibidos:', enemiesData.length); // Reduced logging
             
-            this.enemies = enemiesData
-                .filter(enemy => {
-                    // Verificar que el enemigo tenga datos válidos
-                    const hasCharacter = enemy.personaje != null;
-                    const hasPosition = typeof enemy.x === 'number' && typeof enemy.y === 'number';
-                    const isNotSelf = enemy.id !== this.playerId;
-                    
-                    console.log(`👤 Enemigo ${enemy.id}:`, { hasCharacter, hasPosition, isNotSelf }); // Debug log
-                    
-                    return hasCharacter && hasPosition && isNotSelf;
-                })
-                .map(enemy => {
-                    const characterName = enemy.personaje.nombre || enemy.personaje;
-                    console.log(`🎭 Creando personaje enemigo: ${characterName} en (${enemy.x}, ${enemy.y})`); // Debug log
-                    
+            // Procesar datos de enemigos válidos
+            const validEnemiesData = enemiesData.filter(enemy => {
+                const hasCharacter = enemy.personaje != null;
+                const hasPosition = typeof enemy.x === 'number' && typeof enemy.y === 'number';
+                const isNotSelf = enemy.id !== this.playerId;
+                return hasCharacter && hasPosition && isNotSelf;
+            });
+
+            // Actualizar enemigos existentes o crear nuevos
+            const updatedEnemies = [];
+            
+            validEnemiesData.forEach(enemyData => {
+                // Buscar enemigo existente
+                let existingEnemy = this.enemies.find(e => e.id === enemyData.id);
+                
+                if (existingEnemy) {
+                    // Actualizar posición con interpolación suave
+                    existingEnemy.updateServerPosition(enemyData.x, enemyData.y);
+                    updatedEnemies.push(existingEnemy);
+                } else {
+                    // Crear nuevo enemigo
+                    const characterName = enemyData.personaje.nombre || enemyData.personaje;
                     const character = Character.createFromData({
                         name: characterName,
-                        id: enemy.id
+                        id: enemyData.id
                     });
 
                     if (character) {
-                        character.position.x = enemy.x;
-                        character.position.y = enemy.y;
-                        console.log(`✅ Enemigo creado: ${character.name} en posición (${character.position.x}, ${character.position.y})`);
-                    } else {
-                        console.error(`❌ No se pudo crear el personaje enemigo: ${characterName}`);
+                        // Establecer posición inicial sin interpolación
+                        character.position.x = enemyData.x;
+                        character.position.y = enemyData.y;
+                        character.targetPosition.x = enemyData.x;
+                        character.targetPosition.y = enemyData.y;
+                        updatedEnemies.push(character);
+                        console.log(`✅ Nuevo enemigo creado: ${character.name}`);
                     }
-
-                    return character;
-                })
-                .filter(enemy => enemy !== null);
-                
-            console.log(`🎯 Total de enemigos válidos: ${this.enemies.length}`); // Debug log
+                }
+            });
+            
+            this.enemies = updatedEnemies;
+            console.log(`🎯 Total de enemigos activos: ${this.enemies.length}`);
+            
         } catch (error) {
             ErrorHandler.logError(error, 'Game.updateEnemies');
         }
     }
 
     drawEnemies() {
-        console.log(`🎮 Dibujando ${this.enemies.length} enemigos`); // Debug log
         this.enemies.forEach((enemy, index) => {
-            console.log(`👻 Enemigo ${index}: ${enemy.name} en (${enemy.position.x}, ${enemy.position.y})`);
             enemy.draw(this.ctx);
             this.checkCollision(enemy);
         });

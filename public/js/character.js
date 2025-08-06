@@ -12,6 +12,12 @@ class Character {
             height: Config.GAME.PLAYER.SIZE
         };
         
+        // Propiedades para interpolación suave
+        this.targetPosition = { x: 0, y: 0 };
+        this.interpolationSpeed = Config.GAME.PLAYER.INTERPOLATION_SPEED || 0.15; // Velocidad de interpolación (0-1)
+        this.lastUpdateTime = Date.now();
+        this.isInterpolating = false;
+        
         this.mapImage = new Image();
         this.mapImage.src = miniImage;
         this.mapImage.onerror = () => {
@@ -63,6 +69,71 @@ class Character {
         } catch (error) {
             ErrorHandler.logError(error, `Dibujar personaje ${this.name}`);
         }
+    }
+    
+    // Nuevo método para actualizar posición del servidor con interpolación
+    updateServerPosition(newX, newY) {
+        const distance = Math.sqrt(
+            Math.pow(newX - this.position.x, 2) + 
+            Math.pow(newY - this.position.y, 2)
+        );
+        
+        // Si la distancia es muy grande, teletransportar (probablemente primera vez o desconexión)
+        if (distance > 100) {
+            this.position.x = newX;
+            this.position.y = newY;
+            this.targetPosition.x = newX;
+            this.targetPosition.y = newY;
+            this.isInterpolating = false;
+        } else {
+            // Configurar interpolación suave
+            this.targetPosition.x = newX;
+            this.targetPosition.y = newY;
+            this.isInterpolating = true;
+        }
+        
+        this.lastUpdateTime = Date.now();
+    }
+    
+    // Método para actualizar interpolación
+    updateInterpolation() {
+        if (!this.isInterpolating) return;
+        
+        const deltaTime = Date.now() - this.lastUpdateTime;
+        const maxInterpolationTime = 200; // 200ms máximo para interpolación
+        
+        // Si ha pasado mucho tiempo, completar interpolación inmediatamente
+        if (deltaTime > maxInterpolationTime) {
+            this.position.x = this.targetPosition.x;
+            this.position.y = this.targetPosition.y;
+            this.isInterpolating = false;
+            return;
+        }
+        
+        // Calcular factor de interpolación basado en tiempo
+        const timeFactor = Math.min(deltaTime / 100, 1); // 100ms para interpolación completa
+        const adjustedSpeed = this.interpolationSpeed * (1 + timeFactor);
+        
+        // Aplicar interpolación lerp
+        this.position.x = this.lerp(this.position.x, this.targetPosition.x, adjustedSpeed);
+        this.position.y = this.lerp(this.position.y, this.targetPosition.y, adjustedSpeed);
+        
+        // Verificar si hemos llegado al objetivo
+        const distanceToTarget = Math.sqrt(
+            Math.pow(this.targetPosition.x - this.position.x, 2) + 
+            Math.pow(this.targetPosition.y - this.position.y, 2)
+        );
+        
+        if (distanceToTarget < 1) {
+            this.position.x = this.targetPosition.x;
+            this.position.y = this.targetPosition.y;
+            this.isInterpolating = false;
+        }
+    }
+    
+    // Función de interpolación lineal
+    lerp(start, end, factor) {
+        return start + (end - start) * factor;
     }
     
     move(mapDimensions) {
