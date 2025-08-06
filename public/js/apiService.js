@@ -82,7 +82,7 @@ class APIService {
             }
             
             // Reintentar si es un error temporal y no hemos superado los intentos máximos
-            if (attempt < Config.SERVER.RETRY_ATTEMPTS && (isNetworkError || error.status >= 500)) {
+            if (attempt < Config.SERVER.RETRY_ATTEMPTS && (isNetworkError || (typeof error.status === 'number' && error.status >= 500))) {
                 const delay = this.getRetryDelay(attempt);
                 console.log(`🔄 API: Reintentando en ${delay}ms (intento ${attempt + 1}/${Config.SERVER.RETRY_ATTEMPTS})`);
                 
