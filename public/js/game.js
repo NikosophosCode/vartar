@@ -438,7 +438,7 @@ class Game {
             }
         } catch (error) {
             // Solo logear errores críticos, no errores de red temporales
-            if (error.message.includes('HTTP Error: 5') || 
+            if (/HTTP Error: 5\d\d/.test(error.message) || 
                 !error.message.includes('Failed to fetch')) {
                 ErrorHandler.logError(error, 'Game.updatePlayerPosition');
             }
