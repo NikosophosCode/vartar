@@ -133,7 +133,6 @@ class APIService {
         const now = Date.now();
         const key = `position-${playerId}`;
         
-        if (!this.lastPositionSent) this.lastPositionSent = new Map();
         const lastSent = this.lastPositionSent.get(key);
         
         // Enviar si es la primera vez, ha pasado suficiente tiempo, o la posición cambió significativamente
