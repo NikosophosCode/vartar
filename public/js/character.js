@@ -111,7 +111,7 @@ class Character {
         }
         
         // Calcular factor de interpolación basado en tiempo
-        const timeFactor = Math.min(deltaTime / 100, 1); // 100ms para interpolación completa
+        const timeFactor = Math.min(deltaTime / Config.GAME.INTERPOLATION_TIME_MS, 1); // 100ms para interpolación completa
         const adjustedSpeed = this.interpolationSpeed * (1 + timeFactor);
         
         // Aplicar interpolación lerp
