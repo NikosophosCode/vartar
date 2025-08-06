@@ -52,7 +52,15 @@ const Config = {
         COLLISION_MARGIN: 10
     },
     
+    COLLISION: {
+        DETECTION_DISTANCE: 90, // Distancia en píxeles para detectar colisión
+        CONFIRMATION_TIMEOUT: 3000, // Tiempo límite para confirmar colisión bilateral (3s)
+        DEBOUNCE_TIME: 500, // Tiempo mínimo entre detecciones de colisión (0.5s)
+        MAX_RETRY_ATTEMPTS: 3 // Intentos máximos para establecer colisión
+    },
+    
     DEBUG: {
-        SHOW_TOUCH_GUIDES: true // Cambiar a true para ver las guías y debug
+        SHOW_TOUCH_GUIDES: false, // Cambiar a true para ver las guías y debug
+        SHOW_COLLISION_BOUNDS: true // Mostrar áreas de colisión
     }
 };
