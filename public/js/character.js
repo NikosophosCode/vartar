@@ -79,7 +79,7 @@ class Character {
         );
         
         // Si la distancia es muy grande, teletransportar (probablemente primera vez o desconexión)
-        if (distance > 100) {
+        if (distance > (Config.GAME.PLAYER.TELEPORT_THRESHOLD || 100)) {
             this.position.x = newX;
             this.position.y = newY;
             this.targetPosition.x = newX;
