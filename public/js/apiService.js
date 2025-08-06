@@ -152,8 +152,8 @@ class APIService {
             );
         }
         
-        // Retornar la última respuesta conocida si no enviamos nueva petición
-        return this.lastPositionResponse || { enemigos: [] };
+        // Retornar un indicador específico si no enviamos nueva petición
+        return null;
     }
     
     static async sendPowers(playerId, powers) {
