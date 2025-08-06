@@ -433,7 +433,7 @@ class Game {
 
             // Guardar respuesta para uso futuro
             if (response && response.enemigos) {
-                APIService.lastPositionResponse = response;
+                this.lastPositionResponse = response;
                 this.updateEnemies(response.enemigos);
             }
         } catch (error) {
