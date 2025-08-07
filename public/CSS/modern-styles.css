@@ -1,0 +1,450 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap');
+
+/* Variables CSS personalizadas */
+:root {
+  --gaming-primary: #6366f1;
+  --gaming-secondary: #8b5cf6;
+  --gaming-accent: #06d6a0;
+  --gaming-warning: #fbbf24;
+  --gaming-danger: #ef4444;
+  
+  --theme-primary: #6366f1;
+  --theme-secondary: #8b5cf6;
+  --theme-accent: #06d6a0;
+  
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.5);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reseteo y base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: #0f172a;
+  color: white;
+  overflow-x: hidden;
+  background: radial-gradient(ellipse at center, rgba(51, 65, 85, 0.3) 0%, rgba(15, 23, 42, 0.9) 100%);
+}
+
+h1, h2, h3 {
+  font-family: 'Orbitron', monospace;
+}
+
+button {
+  transition: all 0.3s ease;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+}
+
+/* Header mejorado */
+header {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 2rem 0;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+header h1 {
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 900;
+  background: linear-gradient(45deg, var(--gaming-primary), var(--gaming-secondary), var(--gaming-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.3));
+  animation: pulse 3s ease-in-out infinite;
+}
+
+/* Selección de personajes */
+.character-selection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tarjeta-personaje {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 2px solid #475569;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.tarjeta-personaje:hover {
+  transform: scale(1.05);
+  border-color: var(--gaming-primary);
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
+}
+
+.tarjeta-personaje img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.tarjeta-personaje:hover img {
+  transform: scale(1.1);
+}
+
+/* Personaje seleccionado */
+input[type="radio"]:checked + .tarjeta-personaje {
+  border-color: var(--gaming-accent);
+  box-shadow: 0 0 30px rgba(6, 214, 160, 0.4);
+  transform: scale(1.05);
+}
+
+/* Botones principales */
+.character-select-btn, .restart-btn {
+  background: linear-gradient(45deg, var(--gaming-primary), var(--gaming-secondary));
+  color: white;
+  font-family: 'Orbitron', monospace;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+  cursor: pointer;
+  margin: 10px;
+}
+
+.character-select-btn:hover, .restart-btn:hover {
+  border-color: var(--gaming-accent);
+  transform: scale(1.05);
+  box-shadow: 0 15px 30px rgba(99, 102, 241, 0.5);
+  filter: brightness(1.1);
+}
+
+/* Botones de poderes */
+.boton-de-poderes {
+  background: #1e293b;
+  color: white;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #475569;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin: 6px;
+}
+
+.boton-de-poderes:hover:not(:disabled) {
+  background: #334155;
+  border-color: var(--gaming-primary);
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+  transform: scale(1.05);
+}
+
+.boton-de-poderes:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Canvas del mapa */
+.game-canvas {
+  border-radius: 1rem;
+  border: 4px solid #475569;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(45deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8));
+}
+
+/* Controles de movimiento */
+.movement-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.movement-controls__row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.movement-btn {
+  width: 4rem;
+  height: 4rem;
+  background: #1e293b;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 50%;
+  border: 2px solid #475569;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.movement-btn:hover {
+  background: #334155;
+  border-color: var(--gaming-primary);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
+  transform: translateY(-2px);
+}
+
+.movement-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Información de combate */
+.combat-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 1rem;
+  border: 1px solid #475569;
+  backdrop-filter: blur(10px);
+}
+
+.player-info, .enemy-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.player-lives, .enemy-lives {
+  font-size: 2rem;
+  font-family: 'Orbitron', monospace;
+  font-weight: bold;
+  background: linear-gradient(45deg, #ef4444, #dc2626);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.imagen-jugadores {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid var(--gaming-primary);
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+}
+
+.imagen-jugadores img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Instrucciones del juego */
+.game-instructions {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.game-instructions p {
+  font-size: 1.125rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.game-rules {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-family: 'Orbitron', monospace;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(45deg, var(--gaming-primary), var(--gaming-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rules-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 0.5rem;
+  border: 1px solid #334155;
+  list-style: none;
+}
+
+.rules-list li::before {
+  content: "🎮";
+  flex-shrink: 0;
+}
+
+/* Video de fondo */
+.video-fondo {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  overflow: hidden;
+}
+
+.video-fondo video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2;
+  filter: blur(2px) brightness(0.3);
+}
+
+/* Footer */
+.site-footer {
+  position: relative;
+  z-index: 10;
+  margin-top: 4rem;
+  padding: 2rem 0;
+  text-align: center;
+  border-top: 1px solid #1e293b;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.footer-text {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-bottom: 0.5rem;
+}
+
+.footer-link {
+  color: var(--gaming-accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: var(--gaming-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .character-selection {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .tarjeta-personaje {
+    padding: 0.75rem;
+  }
+  
+
+  
+  .movement-btn {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.125rem;
+  }
+  
+  .combat-section {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+}
+
+/* Animaciones */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Estados ocultos por defecto */
+#ver-mapa,
+#fin-juego,
+#mensaje-final,
+#personajes-seleccionados,
+#poderes-vidas,
+#subtituloTres {
+  display: none;
+}
+
+/* Animaciones adicionales */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px var(--gaming-primary), 0 0 10px var(--gaming-primary);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--gaming-primary), 0 0 30px var(--gaming-primary);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Estados de carga */
+.loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 100%;
+  }
+}

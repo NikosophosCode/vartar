@@ -74,9 +74,97 @@ const Config = {
     
     DEBUG: {
         SHOW_TOUCH_GUIDES: false,        // Ver guías táctiles en desarrollo
-        SHOW_COLLISION_BOUNDS: true,     // Mostrar áreas de colisión
-        SHOW_COLLISION_SYSTEM_V2: true,  // Mostrar información del sistema V2
+        SHOW_COLLISION_BOUNDS: false,     // Mostrar áreas de colisión
+        SHOW_COLLISION_SYSTEM_V2: false,  // Mostrar información del sistema V2
         COLLISION_OPTIMIZATION_METRICS: false, // Mostrar métricas de optimización
-        VERBOSE_COLLISION_LOGGING: true  // Logging detallado de colisiones
+        VERBOSE_COLLISION_LOGGING: false  // Logging detallado de colisiones
+    },
+    
+    // Nuevas configuraciones modernas
+    MOBILE: {
+        JOYSTICK: {
+            SIZE: 120,
+            DEAD_ZONE: 0.2,
+            MAX_DISTANCE: 50,
+            ALPHA: 0.8,
+            HAPTIC_FEEDBACK: true,
+            SMOOTHING: 0.8,
+            AUTO_HIDE: true,
+            HIDE_DELAY: 2000
+        },
+        TOUCH: {
+            SWIPE_THRESHOLD: 50,
+            DOUBLE_TAP_DELAY: 300,
+            LONG_PRESS_DELAY: 500,
+            GESTURE_RECOGNITION: true
+        },
+        ORIENTATION: {
+            LOCK_LANDSCAPE: false,
+            ADAPT_UI: true,
+            SHOW_ROTATION_HINT: true
+        }
+    },
+    
+    UI_MODERN: {
+        THEME: {
+            DEFAULT: 'gaming',
+            ANIMATIONS: true,
+            TRANSITIONS: true,
+            PARTICLE_EFFECTS: true,
+            GLASS_EFFECTS: true
+        },
+        NOTIFICATIONS: {
+            DURATION: 3000,
+            MAX_VISIBLE: 3,
+            POSITION: 'top-right',
+            HAPTIC_FEEDBACK: true
+        },
+        PERFORMANCE: {
+            REDUCE_MOTION: false,
+            LOW_POWER_MODE: false,
+            ADAPTIVE_QUALITY: true,
+            FPS_TARGET: 60
+        }
+    },
+    
+    AUDIO: {
+        ENABLED: true,
+        MASTER_VOLUME: 0.7,
+        EFFECTS: {
+            UI_SOUNDS: true,
+            MOVEMENT: true,
+            COMBAT: true,
+            AMBIENT: true
+        },
+        FORMATS: ['webm', 'ogg', 'mp3'],
+        PRELOAD: true
+    },
+    
+    GRAPHICS: {
+        CANVAS: {
+            ALPHA: true,
+            ANTIALIAS: true,
+            PRESERVE_DRAWING_BUFFER: false,
+            POWER_PREFERENCE: 'high-performance'
+        },
+        EFFECTS: {
+            SHADOWS: true,
+            GLOW: true,
+            PARTICLES: true,
+            SCREEN_SHAKE: true
+        },
+        QUALITY: {
+            AUTO_ADJUST: true,
+            MIN_FPS: 30,
+            TARGET_FPS: 60
+        }
+    },
+    
+    NETWORK: {
+        REALTIME: false, // Socket.IO cuando esté implementado
+        HEARTBEAT_INTERVAL: 30000,
+        RECONNECT_ATTEMPTS: 5,
+        RECONNECT_DELAY: 1000,
+        COMPRESSION: true
     }
 };

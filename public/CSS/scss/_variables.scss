@@ -1,0 +1,92 @@
+// Variables SCSS para el tema del juego
+:root {
+  // Colores de elementos
+  --earth-primary: #8b5a3c;
+  --earth-secondary: #7a4d33;
+  --fire-primary: #ea580c;
+  --fire-secondary: #dc2626;
+  --water-primary: #0ea5e9;
+  --water-secondary: #0284c7;
+  --air-primary: #64748b;
+  --air-secondary: #475569;
+  
+  // Colores gaming
+  --gaming-primary: #6366f1;
+  --gaming-secondary: #8b5cf6;
+  --gaming-accent: #06d6a0;
+  --gaming-warning: #fbbf24;
+  --gaming-danger: #ef4444;
+  
+  // Fondos y superficies
+  --bg-primary: rgba(15, 23, 42, 0.95);
+  --bg-secondary: rgba(30, 41, 59, 0.9);
+  --bg-card: rgba(51, 65, 85, 0.8);
+  --bg-overlay: rgba(0, 0, 0, 0.7);
+  
+  // Tipografía
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  
+  // Espaciado
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  
+  // Bordes y radios
+  --border-radius-sm: 0.375rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 0.75rem;
+  --border-radius-xl: 1rem;
+  
+  // Sombras
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.5);
+  
+  // Transiciones
+  --transition-fast: 0.15s ease-in-out;
+  --transition-normal: 0.3s ease-in-out;
+  --transition-slow: 0.5s ease-in-out;
+  
+  // Breakpoints móviles
+  --mobile-small: 375px;
+  --mobile-medium: 425px;
+  --tablet: 768px;
+  --desktop: 1024px;
+}
+
+// Mixins SCSS útiles
+@mixin mobile-first($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@mixin button-hover-effect {
+  transition: all var(--transition-normal);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+@mixin power-glow($color) {
+  box-shadow: 0 0 10px $color, 0 0 20px $color, 0 0 30px $color;
+  animation: pulse 2s infinite;
+}

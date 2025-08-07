@@ -7,9 +7,21 @@
     <meta name="description" content="Vartar es un juego de rol multijugador donde los jugadores eligen personajes y poderes para enfrentarse en un mapa interactivo.">
     <meta name="keywords" content="Vartar, juego de rol, multijugador, personajes, poderes, mapa interactivo">
     <meta name="author" content="NikosophosCode">
+    <meta name="theme-color" content="#6366f1">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="./assets/mapa.jpg" as="image">
+    <link rel="preload" href="./CSS/styles.css" as="style">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
-    <title>Vartar </title>
+    <title>Vartar - Juego Multijugador</title>
     <link rel="stylesheet" href="./CSS/styles.css">
+    <link rel="stylesheet" href="./CSS/modern-styles.css">
 </head>
 <body>
     <header>
@@ -99,6 +111,10 @@
     <script src="./js/config.js"></script>
     <script src="./js/errorHandler.js"></script>
     <script src="./js/apiService.js"></script>
+    <script src="./js/visualEffects.js"></script>
+    <script src="./js/audioManager.js"></script>
+    <script src="./js/virtualJoystick.js"></script>
+    <script src="./js/gameUI.js"></script>
     <script src="./js/collisionManager.js"></script>
     <script src="./js/collisionSystemV2.js"></script>
     <script src="./js/touchControls.js"></script>
