@@ -3,9 +3,38 @@ const cors = require("cors")
 const app = express()
 const jugadores = []
 
-// Middleware para logging de requests
+// Sistema de limpieza automática
+const limpiarJugadoresInactivos = () => {
+    const antes = jugadores.length
+    
+    // Remover jugadores inactivos (más de 5 minutos sin actividad)
+    for (let i = jugadores.length - 1; i >= 0; i--) {
+        const jugador = jugadores[i]
+        
+        // Limpiar colisiones expiradas
+        jugador.hasColisionExpirado()
+        
+        // Remover si está inactivo
+        if (jugador.estaInactivo()) {
+            console.log(`🧹 Removiendo jugador inactivo: ${jugador.id}`)
+            jugadores.splice(i, 1)
+        }
+    }
+    
+    const despues = jugadores.length
+    if (antes !== despues) {
+        console.log(`📊 Limpieza completada: ${antes} -> ${despues} jugadores (removidos: ${antes - despues})`)
+    }
+}
+
+// Ejecutar limpieza cada 2 minutos
+setInterval(limpiarJugadoresInactivos, 120000)
+
+// Middleware para logging de requests con información adicional
 app.use((req, res, next) => {
-    console.log(`${new Date().toISOString()} - ${req.method} ${req.url} - IP: ${req.ip}`)
+    const timestamp = new Date().toISOString()
+    const jugadoresActivos = jugadores.length
+    console.log(`${timestamp} - ${req.method} ${req.url} - IP: ${req.ip} - Jugadores activos: ${jugadoresActivos}`)
     next()
 })
 
@@ -18,50 +47,104 @@ class Jugador {
         this.estadoCombate = 'libre' // Estados: 'libre', 'colisionando', 'en_combate'
         this.enemigoCombate = null
         this.timestampColision = null
+        this.intentosColision = 0
+        this.ultimaActividad = Date.now()
     }
+    
     asignarPersonaje(personaje) {
         this.personaje = personaje
+        this.ultimaActividad = Date.now()
     }
+    
     actualizarPosicion(x, y) {
-        this.x = x
-        this.y = y
+        // Solo actualizar si las coordenadas son válidas
+        if (typeof x === 'number' && typeof y === 'number') {
+            this.x = x
+            this.y = y
+            this.ultimaActividad = Date.now()
+        }
     }
+    
     asignarAtaques(ataques) {
         this.ataques = ataques
     }
     
-    // Nuevos métodos para manejo de colisiones
+    // Métodos mejorados para manejo de colisiones
     iniciarColision(enemyId) {
-        if (this.estadoCombate === 'libre') {
+        // Limpiar colisiones expiradas primero
+        this.hasColisionExpirado()
+        
+        // Solo permitir colisión si está completamente libre
+        if (this.estadoCombate === 'libre' && enemyId && enemyId !== this.id) {
             this.estadoCombate = 'colisionando'
             this.enemigoCombate = enemyId
             this.timestampColision = Date.now()
+            this.intentosColision++
+            
+            console.log(`🎯 Jugador ${this.id} inicia colisión con ${enemyId}`)
             return true
         }
+        
+        console.log(`⚠️ No se puede iniciar colisión: estado=${this.estadoCombate}, enemy=${enemyId}`)
         return false
     }
     
     confirmarCombate() {
-        if (this.estadoCombate === 'colisionando') {
+        if (this.estadoCombate === 'colisionando' && this.enemigoCombate) {
             this.estadoCombate = 'en_combate'
+            console.log(`⚔️ Jugador ${this.id} confirmó entrada al combate`)
             return true
         }
+        console.log(`❌ No se puede confirmar combate: estado=${this.estadoCombate}`)
         return false
     }
     
     finalizarCombate() {
+        const estadoAnterior = this.estadoCombate
+        const enemigoAnterior = this.enemigoCombate
+        
         this.estadoCombate = 'libre'
         this.enemigoCombate = null
         this.timestampColision = null
+        this.intentosColision = 0
+        
+        if (estadoAnterior !== 'libre') {
+            console.log(`🏁 Jugador ${this.id} finalizó combate con ${enemigoAnterior}`)
+        }
     }
     
-    // Verificar si la colisión ha expirado (timeout de 5 segundos)
+    // Verificar si la colisión ha expirado (timeout mejorado)
     hasColisionExpirado() {
-        if (this.timestampColision && Date.now() - this.timestampColision > 5000) {
-            this.finalizarCombate()
-            return true
+        if (this.timestampColision) {
+            const tiempoTranscurrido = Date.now() - this.timestampColision
+            const timeoutColision = this.estadoCombate === 'colisionando' ? 3000 : 30000 // 3s para colisión, 30s para combate
+            
+            if (tiempoTranscurrido > timeoutColision) {
+                console.log(`⏰ Colisión expirada para jugador ${this.id} (${tiempoTranscurrido}ms > ${timeoutColision}ms)`)
+                this.finalizarCombate()
+                return true
+            }
         }
         return false
+    }
+    
+    // Verificar si el jugador está inactivo
+    estaInactivo(timeoutInactividad = 300000) { // 5 minutos por defecto
+        return Date.now() - this.ultimaActividad > timeoutInactividad
+    }
+    
+    // Obtener información de estado completa
+    getEstadoCompleto() {
+        return {
+            id: this.id,
+            estadoCombate: this.estadoCombate,
+            enemigoCombate: this.enemigoCombate,
+            timestampColision: this.timestampColision,
+            intentosColision: this.intentosColision,
+            tiempoDesdeUltimaActividad: Date.now() - this.ultimaActividad,
+            personaje: this.personaje?.nombre || null,
+            posicion: { x: this.x || 0, y: this.y || 0 }
+        }
     }
 }
 class Personaje {
@@ -124,7 +207,7 @@ app.post("/vartar/:idJugador/posicion", (req, res) => {
     }
 })
 
-// Nuevo endpoint para manejar detección de colisiones
+// Endpoint mejorado para manejar detección de colisiones bilaterales
 app.post("/vartar/:idJugador/colision", (req, res) => {
     const idJugador = req.params.idJugador || ""
     const enemyId = req.body.enemyId || ""
@@ -133,20 +216,32 @@ app.post("/vartar/:idJugador/colision", (req, res) => {
     const enemyX = req.body.enemyX || 0
     const enemyY = req.body.enemyY || 0
     
-    console.log(`🚨 Solicitud de colisión: ${idJugador} vs ${enemyId}`)
+    console.log(`🚨 Solicitud de colisión bilateral: ${idJugador} vs ${enemyId}`)
+    console.log(`📍 Posiciones - Jugador: (${playerX}, ${playerY}), Enemigo: (${enemyX}, ${enemyY})`)
     
     const jugador = jugadores.find(j => j.id === idJugador)
     const enemigo = jugadores.find(j => j.id === enemyId)
     
     if (!jugador || !enemigo) {
+        console.log(`❌ Jugador o enemigo no encontrado: jugador=${!!jugador}, enemigo=${!!enemigo}`)
         return res.status(400).json({ 
             success: false, 
             mensaje: "Jugador o enemigo no encontrado" 
         })
     }
     
+    // Verificar que ambos jugadores tengan personajes asignados
+    if (!jugador.personaje || !enemigo.personaje) {
+        console.log(`❌ Personajes no asignados: jugador=${!!jugador.personaje}, enemigo=${!!enemigo.personaje}`)
+        return res.json({ 
+            success: false, 
+            mensaje: "Personajes no asignados completamente" 
+        })
+    }
+    
     // Verificar que ambos jugadores estén libres
     if (jugador.estadoCombate !== 'libre' || enemigo.estadoCombate !== 'libre') {
+        console.log(`⚠️ Estados de combate: jugador=${jugador.estadoCombate}, enemigo=${enemigo.estadoCombate}`)
         return res.json({ 
             success: false, 
             mensaje: "Uno de los jugadores ya está en combate",
@@ -155,44 +250,101 @@ app.post("/vartar/:idJugador/colision", (req, res) => {
         })
     }
     
-    // Verificar proximidad real de los jugadores (validación del servidor)
-    const distancia = Math.sqrt(
-        Math.pow(jugador.x - enemigo.x, 2) + 
-        Math.pow(jugador.y - enemigo.y, 2)
+    // Verificar posiciones actualizadas en el servidor (más preciso)
+    const posicionJugadorServidor = { x: jugador.x || 0, y: jugador.y || 0 }
+    const posicionEnemigoServidor = { x: enemigo.x || 0, y: enemigo.y || 0 }
+    
+    // Calcular distancias - tanto cliente como servidor
+    const distanciaCliente = Math.sqrt(
+        Math.pow(playerX - enemyX, 2) + 
+        Math.pow(playerY - enemyY, 2)
     )
     
-    const DISTANCIA_COLISION = 100 // Píxeles de tolerancia
+    const distanciaServidor = Math.sqrt(
+        Math.pow(posicionJugadorServidor.x - posicionEnemigoServidor.x, 2) + 
+        Math.pow(posicionJugadorServidor.y - posicionEnemigoServidor.y, 2)
+    )
     
-    if (distancia > DISTANCIA_COLISION) {
-        return res.json({ 
-            success: false, 
-            mensaje: "Jugadores demasiado lejos para colisionar",
-            distancia: Math.round(distancia)
+    const DISTANCIA_COLISION = 90 // Píxeles de tolerancia más precisa
+    const TOLERANCIA_SINCRONIZACION = 30 // Tolerancia para diferencias cliente-servidor
+    
+    console.log(`📏 Distancias - Cliente: ${distanciaCliente.toFixed(1)}, Servidor: ${distanciaServidor.toFixed(1)}`)
+    
+    // Verificar si las posiciones están demasiado desincronizadas
+    const diferenciaDistancia = Math.abs(distanciaCliente - distanciaServidor)
+    if (diferenciaDistancia > TOLERANCIA_SINCRONIZACION) {
+        console.log(`⚠️ Posiciones desincronizadas, diferencia: ${diferenciaDistancia.toFixed(1)}px`)
+        return res.json({
+            success: false,
+            mensaje: "Posiciones desincronizadas entre cliente y servidor",
+            detalles: {
+                distanciaCliente: Math.round(distanciaCliente),
+                distanciaServidor: Math.round(distanciaServidor),
+                diferencia: Math.round(diferenciaDistancia)
+            }
         })
     }
     
-    // Iniciar colisión bilateral
+    // Usar la distancia del servidor como autoridad
+    if (distanciaServidor > DISTANCIA_COLISION) {
+        console.log(`📏 Jugadores demasiado lejos: ${distanciaServidor.toFixed(1)}px > ${DISTANCIA_COLISION}px`)
+        return res.json({ 
+            success: false, 
+            mensaje: "Jugadores demasiado lejos para colisionar",
+            distancia: Math.round(distanciaServidor),
+            limiteDistancia: DISTANCIA_COLISION
+        })
+    }
+    
+    // Verificación adicional: validar que los jugadores no hayan cambiado de estado desde la solicitud
+    jugador.hasColisionExpirado()
+    enemigo.hasColisionExpirado()
+    
+    if (jugador.estadoCombate !== 'libre' || enemigo.estadoCombate !== 'libre') {
+        console.log(`⚠️ Estados cambiaron durante validación: jugador=${jugador.estadoCombate}, enemigo=${enemigo.estadoCombate}`)
+        return res.json({ 
+            success: false, 
+            mensaje: "Estado de jugadores cambió durante validación" 
+        })
+    }
+    
+    // Iniciar colisión bilateral atómica
     const jugadorColisionOk = jugador.iniciarColision(enemyId)
     const enemigoColisionOk = enemigo.iniciarColision(idJugador)
     
     if (jugadorColisionOk && enemigoColisionOk) {
-        console.log(`✅ Colisión confirmada: ${jugador.personaje?.nombre} vs ${enemigo.personaje?.nombre}`)
+        console.log(`✅ Colisión bilateral confirmada: ${jugador.personaje.nombre} (${idJugador}) vs ${enemigo.personaje.nombre} (${enemyId})`)
+        console.log(`📊 Distancia final: ${distanciaServidor.toFixed(1)}px`)
+        
         res.json({
             success: true,
-            mensaje: "Colisión confirmada",
+            mensaje: "Colisión bilateral confirmada",
+            timestamp: Date.now(),
             jugador: {
                 id: jugador.id,
-                personaje: jugador.personaje?.nombre
+                personaje: jugador.personaje.nombre,
+                posicion: posicionJugadorServidor
             },
             enemigo: {
                 id: enemigo.id,
-                personaje: enemigo.personaje?.nombre
-            }
+                personaje: enemigo.personaje.nombre,
+                posicion: posicionEnemigoServidor
+            },
+            distancia: Math.round(distanciaServidor)
         })
     } else {
+        // Si falló, asegurarse de que ambos estén libres
+        jugador.finalizarCombate()
+        enemigo.finalizarCombate()
+        
+        console.log(`❌ No se pudo establecer colisión bilateral: jugador=${jugadorColisionOk}, enemigo=${enemigoColisionOk}`)
         res.json({
             success: false,
-            mensaje: "No se pudo establecer la colisión bilateral"
+            mensaje: "No se pudo establecer la colisión bilateral de forma atómica",
+            detalles: {
+                jugadorDisponible: jugadorColisionOk,
+                enemigoDisponible: enemigoColisionOk
+            }
         })
     }
 })
@@ -255,12 +407,39 @@ app.get("/vartar/:idJugador/poderes", (req, res) => {
     })
 })
 
+// Endpoint para obtener métricas del servidor (opcional, para debugging)
+app.get("/vartar/metricas", (req, res) => {
+    const ahora = Date.now()
+    
+    // Estadísticas de jugadores
+    const estadisticas = {
+        timestamp: ahora,
+        jugadores: {
+            total: jugadores.length,
+            libres: jugadores.filter(j => j.estadoCombate === 'libre').length,
+            colisionando: jugadores.filter(j => j.estadoCombate === 'colisionando').length,
+            en_combate: jugadores.filter(j => j.estadoCombate === 'en_combate').length,
+            inactivos: jugadores.filter(j => j.estaInactivo()).length
+        },
+        estados: jugadores.map(j => ({
+            id: j.id.substring(0, 8) + '...',
+            estado: j.estadoCombate,
+            tiempoEnEstado: j.timestampColision ? ahora - j.timestampColision : 0,
+            personaje: j.personaje?.nombre || 'Sin asignar'
+        }))
+    }
+    
+    res.json(estadisticas)
+})
+
 app.listen(8080, '0.0.0.0', () => {
     console.log("===========================================")
-    console.log("Servidor Vartar iniciado correctamente")
+    console.log("🚀 Servidor Vartar iniciado correctamente")
+    console.log("⚡ Sistema de colisiones V2 habilitado")
     console.log("Puerto: 8080")
     console.log("Accesible desde:")
     console.log("- Local: http://localhost:8080")
-    console.log("- Red: http://192.168.20.33:8080")
+    console.log("- Red: http://192.168.20.33:8080") 
+    console.log("- Métricas: http://localhost:8080/vartar/metricas")
     console.log("===========================================")
 })

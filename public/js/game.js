@@ -20,8 +20,8 @@ class Game {
         this.lastNetworkUpdate = 0; // Para throttling de peticiones de red
         this.enemyPositionCache = new Map(); // Cache de posiciones de enemigos
         
-        // Nuevo: Sistema de colisiones mejorado
-        this.collisionManager = null;
+        // Sistema de colisiones mejorado V2
+        this.collisionSystemV2 = null;
         this.combatState = 'free'; // Estados: 'free', 'collision_detected', 'in_combat'
 
         this.initializeElements();
@@ -356,8 +356,8 @@ class Game {
         this.combatState = 'free';
         this.playerCharacter = this.selectedCharacter; // Asignar referencia del personaje
         
-        // Inicializar el sistema de colisiones
-        this.collisionManager = new CollisionManager(this);
+        // Inicializar el sistema de colisiones V2 mejorado
+        this.collisionSystemV2 = new CollisionSystemV2(this);
         
         this.elements.mapSection.style.display = 'flex';
         this.elements.characterSection.style.display = 'none';
@@ -418,40 +418,9 @@ class Game {
             this.touchControls.drawTouchGuides(this.ctx);
         }
         
-        // Dibujar información de debug de colisiones
-        if (this.collisionManager && Config.DEBUG?.SHOW_COLLISION_BOUNDS) {
-            // Dibujar indicador de estado de colisión
-            const ctx = this.ctx;
-            ctx.save();
-            
-            const statusColors = {
-                'free': '#00FF00',
-                'detecting': '#FFAA00', 
-                'confirmed': '#FF6600',
-                'in_combat': '#FF0000'
-            };
-            
-            const state = this.collisionManager.getCollisionState().state;
-            const color = statusColors[state] || '#FFFFFF';
-            const x = 10;
-            const y = 30;
-            
-            // Fondo del indicador
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-            ctx.fillRect(x - 5, y - 15, 120, 20);
-            
-            // Texto del estado
-            ctx.fillStyle = color;
-            ctx.font = '12px Arial';
-            ctx.fillText(`Estado: ${state}`, x, y);
-            
-            // Indicador circular
-            ctx.beginPath();
-            ctx.arc(x + 130, y - 5, 5, 0, 2 * Math.PI);
-            ctx.fillStyle = color;
-            ctx.fill();
-            
-            ctx.restore();
+        // Dibujar información de debug del sistema de colisiones V2
+        if (this.collisionSystemV2 && Config.DEBUG?.SHOW_COLLISION_SYSTEM_V2) {
+            this.collisionSystemV2.drawDebugInfo(this.ctx);
         }
     }
     
@@ -572,10 +541,10 @@ class Game {
             // Actualizar nuestro estado
             this.combatState = 'collision_detected';
             
-            // Si tenemos collision manager, sincronizar su estado
-            if (this.collisionManager) {
-                this.collisionManager.collisionState = 'confirmed';
-                this.collisionManager.currentTarget = collidingEnemy;
+            // Si tenemos collision system V2, sincronizar su estado
+            if (this.collisionSystemV2) {
+                this.collisionSystemV2.state = 'confirming';
+                this.collisionSystemV2.collisionTarget = collidingEnemy;
             }
             
             // Confirmar entrada a combate en el servidor
@@ -606,15 +575,15 @@ class Game {
         
         this.combatState = stateMapping[serverState] || 'free';
         
-        // Sincronizar collision manager si existe
-        if (this.collisionManager) {
-            const cmStateMapping = {
-                'libre': 'free',
-                'colisionando': 'confirmed',
+        // Sincronizar collision system V2 si existe
+        if (this.collisionSystemV2) {
+            const systemStateMapping = {
+                'libre': 'idle',
+                'colisionando': 'confirming',
                 'en_combate': 'in_combat'
             };
             
-            this.collisionManager.collisionState = cmStateMapping[serverState] || 'free';
+            this.collisionSystemV2.state = systemStateMapping[serverState] || 'idle';
         }
     }
     
@@ -720,30 +689,24 @@ class Game {
     drawEnemies() {
         this.enemies.forEach((enemy, index) => {
             enemy.draw(this.ctx);
-            
-            // Usar el nuevo sistema de colisiones solo si estamos libres
-            if (this.collisionManager && this.collisionManager.isAvailableForCollision()) {
-                // El CollisionManager maneja toda la lógica de colisión
-                // en su método checkCollisions que se llama desde updateGame
-            }
         });
         
-        // Verificar colisiones usando el sistema mejorado
-        if (this.collisionManager && this.combatState === 'free') {
-            this.collisionManager.checkCollisions(this.enemies);
+        // Verificar colisiones usando el sistema V2 mejorado
+        if (this.collisionSystemV2 && this.combatState === 'free') {
+            this.collisionSystemV2.checkCollisions(this.enemies);
         }
     }
 
-    // Método legacy mantenido para compatibilidad - usar CollisionManager en su lugar
+    // Método legacy mantenido para compatibilidad
     checkCollision(enemy) {
-        // Este método ahora es manejado por CollisionManager
+        // Este método ahora es manejado por CollisionSystemV2
         // Mantenido solo para compatibilidad con código existente
         return false;
     }
 
     /**
-     * Nuevo método para manejar colisiones confirmadas por el CollisionManager
-     * Reemplaza el anterior handleCollision con mejor control de estado
+     * Método mejorado para manejar colisiones confirmadas por el CollisionSystemV2
+     * Reemplaza el anterior handleConfirmedCollision con mejor control de estado
      */
     handleConfirmedCollision(enemy, collisionData) {
         try {
@@ -800,8 +763,8 @@ class Game {
             this.combatState = 'free';
             this.enemyId = null;
             
-            if (this.collisionManager) {
-                this.collisionManager.resetCollisionState();
+            if (this.collisionSystemV2) {
+                this.collisionSystemV2.resetCollisionState();
             }
             
             // Restaurar el game loop si se detuvo
@@ -964,14 +927,14 @@ class Game {
     }
     
     /**
-     * Método para finalizar combate usando el sistema mejorado
+     * Método para finalizar combate usando el sistema mejorado V2
      */
     async finalizeCombat() {
         try {
             console.log('🏁 Game: Finalizando combate...');
             
-            if (this.collisionManager) {
-                await this.collisionManager.finalizeCombat();
+            if (this.collisionSystemV2) {
+                await this.collisionSystemV2.finalizeCombat();
             }
             
             // Resetear estado local
@@ -994,9 +957,9 @@ class Game {
 
     restartGame() {
         try {
-            // Limpiar recursos del collision manager
-            if (this.collisionManager) {
-                this.collisionManager.cleanup();
+            // Limpiar recursos del collision system V2
+            if (this.collisionSystemV2) {
+                this.collisionSystemV2.cleanup();
             }
             
             // Limpiar intervalos

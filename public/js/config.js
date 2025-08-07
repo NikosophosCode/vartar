@@ -53,14 +53,30 @@ const Config = {
     },
     
     COLLISION: {
-        DETECTION_DISTANCE: 90, // Distancia en píxeles para detectar colisión
-        CONFIRMATION_TIMEOUT: 3000, // Tiempo límite para confirmar colisión bilateral (3s)
-        DEBOUNCE_TIME: 500, // Tiempo mínimo entre detecciones de colisión (0.5s)
-        MAX_RETRY_ATTEMPTS: 3 // Intentos máximos para establecer colisión
+        // Sistema V2 - Configuración optimizada y precisa
+        DETECTION_DISTANCE: 85,      // Radio de detección inicial (más preciso)
+        CONFIRMATION_DISTANCE: 75,    // Radio para confirmar colisión (más estricto)
+        MIN_OVERLAP_AREA: 400,       // Área mínima de solapamiento en píxeles cuadrados
+        DEBOUNCE_TIME: 300,          // Tiempo mínimo entre detecciones por enemigo (0.3s)
+        REQUEST_TIMEOUT: 2500,       // Timeout para confirmación bilateral (2.5s)
+        POSITION_TOLERANCE: 8,       // Tolerancia de posición entre cliente/servidor
+        MAX_RETRY_ATTEMPTS: 2,       // Intentos máximos para establecer colisión
+        
+        // Optimizaciones de rendimiento
+        CACHE_CLEANUP_INTERVAL: 5000, // Limpiar cache cada 5s
+        MAX_CACHE_SIZE: 20,           // Máximo de entradas en cache
+        DISTANCE_CHECK_OPTIMIZATION: true, // Usar verificación rápida de distancia
+        
+        // Configuración de bounds
+        COLLISION_MARGIN: 8,          // Margen interno para bounds más precisos
+        BOUNDS_OPTIMIZATION: true     // Usar bounds optimizados
     },
     
     DEBUG: {
-        SHOW_TOUCH_GUIDES: false, // Cambiar a true para ver las guías y debug
-        SHOW_COLLISION_BOUNDS: true // Mostrar áreas de colisión
+        SHOW_TOUCH_GUIDES: false,        // Ver guías táctiles en desarrollo
+        SHOW_COLLISION_BOUNDS: true,     // Mostrar áreas de colisión
+        SHOW_COLLISION_SYSTEM_V2: true,  // Mostrar información del sistema V2
+        COLLISION_OPTIMIZATION_METRICS: false, // Mostrar métricas de optimización
+        VERBOSE_COLLISION_LOGGING: true  // Logging detallado de colisiones
     }
 };
