@@ -18,7 +18,7 @@ class GameUI {
         this.createNotificationContainer();
         this.createOverlayContainer();
         this.createHUDElements();
-        this.setupThemeSelector();
+        // this.setupThemeSelector();
     }
     
     createNotificationContainer() {
@@ -63,79 +63,79 @@ class GameUI {
         document.body.insertAdjacentHTML('beforeend', hudHTML);
     }
     
-    setupThemeSelector() {
-        // Selector de tema/elemento
-        const themeSelectorHTML = `
-            <div id="theme-selector" class="fixed bottom-20 right-4 z-30">
-                <button id="theme-toggle" class="w-12 h-12 bg-slate-800/90 backdrop-blur-md rounded-full border border-slate-600 flex items-center justify-center text-white hover:bg-slate-700 transition-colors">
-                    🌟
-                </button>
-                <div id="theme-options" class="hidden absolute bottom-14 right-0 bg-slate-800/95 backdrop-blur-md rounded-xl p-2 border border-slate-600 space-y-1">
-                    <button class="theme-btn w-10 h-10 rounded-lg bg-earth-500 hover:scale-110 transition-transform" data-theme="earth">🌍</button>
-                    <button class="theme-btn w-10 h-10 rounded-lg bg-fire-500 hover:scale-110 transition-transform" data-theme="fire">🔥</button>
-                    <button class="theme-btn w-10 h-10 rounded-lg bg-water-500 hover:scale-110 transition-transform" data-theme="water">💧</button>
-                    <button class="theme-btn w-10 h-10 rounded-lg bg-air-500 hover:scale-110 transition-transform" data-theme="air">☁️</button>
-                </div>
-            </div>
-        `;
+    // setupThemeSelector() {
+    //     // Selector de tema/elemento
+    //     const themeSelectorHTML = `
+    //         <div id="theme-selector" class="fixed bottom-20 right-4 z-30">
+    //             <button id="theme-toggle" class="w-12 h-12 bg-slate-800/90 backdrop-blur-md rounded-full border border-slate-600 flex items-center justify-center text-white hover:bg-slate-700 transition-colors">
+    //                 🌟
+    //             </button>
+    //             <div id="theme-options" class="hidden absolute bottom-14 right-0 bg-slate-800/95 backdrop-blur-md rounded-xl p-2 border border-slate-600 space-y-1">
+    //                 <button class="theme-btn w-10 h-10 rounded-lg bg-earth-500 hover:scale-110 transition-transform" data-theme="earth">🌍</button>
+    //                 <button class="theme-btn w-10 h-10 rounded-lg bg-fire-500 hover:scale-110 transition-transform" data-theme="fire">🔥</button>
+    //                 <button class="theme-btn w-10 h-10 rounded-lg bg-water-500 hover:scale-110 transition-transform" data-theme="water">💧</button>
+    //                 <button class="theme-btn w-10 h-10 rounded-lg bg-air-500 hover:scale-110 transition-transform" data-theme="air">☁️</button>
+    //             </div>
+    //         </div>
+    //     `;
         
-        document.body.insertAdjacentHTML('beforeend', themeSelectorHTML);
-        this.setupThemeEvents();
-    }
+    //     document.body.insertAdjacentHTML('beforeend', themeSelectorHTML);
+    //     this.setupThemeEvents();
+    // }
     
-    setupThemeEvents() {
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeOptions = document.getElementById('theme-options');
+    // setupThemeEvents() {
+    //     const themeToggle = document.getElementById('theme-toggle');
+    //     const themeOptions = document.getElementById('theme-options');
         
-        themeToggle.addEventListener('click', () => {
-            themeOptions.classList.toggle('hidden');
-        });
+    //     themeToggle.addEventListener('click', () => {
+    //         themeOptions.classList.toggle('hidden');
+    //     });
         
-        document.querySelectorAll('.theme-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const theme = e.target.dataset.theme;
-                this.applyTheme(theme);
-                themeOptions.classList.add('hidden');
-            });
-        });
-    }
+    //     document.querySelectorAll('.theme-btn').forEach(btn => {
+    //         btn.addEventListener('click', (e) => {
+    //             const theme = e.target.dataset.theme;
+    //             this.applyTheme(theme);
+    //             themeOptions.classList.add('hidden');
+    //         });
+    //     });
+    // }
     
-    applyTheme(theme) {
-        const themes = {
-            earth: {
-                primary: '#8b5a3c',
-                secondary: '#7a4d33',
-                accent: '#d4a574'
-            },
-            fire: {
-                primary: '#ea580c',
-                secondary: '#dc2626',
-                accent: '#fbbf24'
-            },
-            water: {
-                primary: '#0ea5e9',
-                secondary: '#0284c7',
-                accent: '#67e8f9'
-            },
-            air: {
-                primary: '#64748b',
-                secondary: '#475569',
-                accent: '#cbd5e1'
-            }
-        };
+    // applyTheme(theme) {
+    //     const themes = {
+    //         earth: {
+    //             primary: '#8b5a3c',
+    //             secondary: '#7a4d33',
+    //             accent: '#d4a574'
+    //         },
+    //         fire: {
+    //             primary: '#ea580c',
+    //             secondary: '#dc2626',
+    //             accent: '#fbbf24'
+    //         },
+    //         water: {
+    //             primary: '#0ea5e9',
+    //             secondary: '#0284c7',
+    //             accent: '#67e8f9'
+    //         },
+    //         air: {
+    //             primary: '#64748b',
+    //             secondary: '#475569',
+    //             accent: '#cbd5e1'
+    //         }
+    //     };
         
-        const selectedTheme = themes[theme];
-        if (selectedTheme) {
-            document.documentElement.style.setProperty('--theme-primary', selectedTheme.primary);
-            document.documentElement.style.setProperty('--theme-secondary', selectedTheme.secondary);
-            document.documentElement.style.setProperty('--theme-accent', selectedTheme.accent);
+    //     const selectedTheme = themes[theme];
+    //     if (selectedTheme) {
+    //         document.documentElement.style.setProperty('--theme-primary', selectedTheme.primary);
+    //         document.documentElement.style.setProperty('--theme-secondary', selectedTheme.secondary);
+    //         document.documentElement.style.setProperty('--theme-accent', selectedTheme.accent);
             
-            // Guardar preferencia
-            localStorage.setItem('vartar_theme', theme);
+    //         // Guardar preferencia
+    //         localStorage.setItem('vartar_theme', theme);
             
-            this.showNotification(`Tema ${theme} activado`, 'success');
-        }
-    }
+    //         this.showNotification(`Tema ${theme} activado`, 'success');
+    //     }
+    // }
     
     setupResponsiveHandlers() {
         // Detector de orientación

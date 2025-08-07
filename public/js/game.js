@@ -775,7 +775,7 @@ class Game {
             this.elements.mapSection.style.display = 'none';
             this.elements.gameEndSection.style.display = 'flex';
             this.elements.sectionPowers.style.display = 'grid';
-            this.elements.sectionCharacter.style.display = 'flex';
+            this.elements.sectionCharacter.style.display = 'block';
             this.elements.selectedTitle.style.display = 'block';
 
             this.setupPowerEventListeners();

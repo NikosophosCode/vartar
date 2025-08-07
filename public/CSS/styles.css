@@ -1,111 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300&family=Alkatra:wght@400..700&family=Merienda:wght@900&display=swap&family=Nosifer&display=swap&family=Nosifer&family=Spicy+Rice&display=swap&family=Akaya+Kanadaka&display=swap");
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-}
-:root {
-    --color-primario: #4b2f68;
-    --color-secundario: #d589d5;
-    --color-bg: #3a250ec2;
-    --color-text: rgb(196 191 188);
-    --color-border: #777299;
-}
-html {
-    scroll-behavior: smooth;
-    font-size: 62.5%; /* 1rem = 10px */
-}
-body {
-    background-color: white;
-}
-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100px;
-}
-h1 {
-    font-size: 3.2rem; /* 32px */
-    text-align: center;
-    color: rgb(0 0 0);
-    font-family: "Merienda", cursive;
-    border-radius: 20px;
-    padding: 6px;
-}
 
-main article {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 26px;
-}
-/* Game Instructions and Rules */
-.game-instructions p,
-.game-rules .rules-list li {
-    font-size: 1.6rem; /* 16px */
-    line-height: 1.5;
-    color: var(--color-text);
-    background: var(--color-bg);
-    padding: 6px;
-}
-
-.section-title {
-    font-size: 2rem; /* 20px */
-    text-align: center;
-    color: var(--color-text);
-    background-color: var(--color-bg);
-    font-family: "Merienda", cursive;
-    border-radius: 20px;
-    margin: 8px;
-    padding: 5px;
-}
-
-/* Character Selection */
-.character-selection {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 8px;
-}
-
-.power-selection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-}
-
-.selected-character {
-    width: 132px;
-    height: 112px;
-    border-radius: 16px;
-}
-
-.tarjeta-personaje {
-    background-color: rgb(66, 68, 114);
-    margin: 6px;
-    border: 4px outset rgb(125, 98, 150);
-    border-radius: 20px;
-    padding: 4px;
-}
-
-.tarjeta-personaje img {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-}
-
-.tarjeta-personaje:active {
-    transform: scale(0.95);
-}
-
-.tarjeta-personaje:hover {
-    cursor: pointer;
-}
 
 .character-select-wrapper {
     display: flex;
@@ -113,47 +7,16 @@ main article {
     margin: 14px;
 }
 
-.character-select-btn {
-    color: rgb(255 255 255);
-    background-color: #000000c2;
-    padding: 6px;
-    box-sizing: border-box;
-    border: 3px solid rgb(119, 114, 153);
-    font-family: "Poppins", sans-serif;
-    border-radius: 35px;
-    width: 34%;
-    height: auto;         
-}
-
 .character-select-btn:active {
     transform: scale(0.95);
 }
 
-.player-character,
-.enemy-character {
-    border-radius: 20px;
-    border: 4px solid black;
-    width: 140px;
-    height: 120px;
-}
 
 .power-buttons-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 
-}
-/* Power System */
-.boton-de-poderes {
-    color: rgb(255 255 255);
-    width: 174px;
-    height: 62px;
-    background-color: #000000c2;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-    font-size: 2.5rem;
-    border-radius: 35px;
-    margin: 6px;
 }
 
 .boton-de-poderes:active {
@@ -245,36 +108,18 @@ main article {
 
 /* Titles and Subtitles */
 .power-selection-title {
-    color: rgb(224 250 255);
-    width: 210px;
-    font-size: 2.8rem; /* 28px */
-    font-family: "Alkatra", system-ui;
-    background-color: #000000a6;
-    border-radius: 20px;
     margin: 16px; 
     text-align: center;
 }
 
 .combat-title {
-    color: rgb(224 250 255);
-    font-size: 3rem;
-    font-family: "Alkatra", system-ui;    
-    background-color: #000000a6;
-    border-radius: 20px;
     margin: 16px;
     text-align: center;
 }
 
 .map-title {
-    color: rgb(224 250 255);
-    font-size: 2rem; /* 20px */
     font-family: "Alkatra", system-ui;
-    font-optical-sizing: auto;
-    border: 2px solid #d589d5;
-    background-color: #000000a6;
     border-radius: 10px;
-    margin: 8px;
-    width: 85%;
 }
 
 /* Movement Controls */
@@ -323,7 +168,7 @@ main article {
 .game-canvas {
     width: 90vw;
     max-width: 900px;
-    height: calc(90vw * 0.75); /* Mantiene aspect ratio 4:3 */
+    height: calc(90vw * 0.75); 
     max-height: calc(900px * 0.75);
     border-radius: 20px;
     border: 4px solid rgb(125 98 150 / 31%);
@@ -331,7 +176,7 @@ main article {
     display: block;
     position: relative;
     cursor: pointer;
-    touch-action: none; /* Previene scroll en móviles */
+    touch-action: none; 
     user-select: none;
 }
 
@@ -361,59 +206,7 @@ main article {
     display: flex;
     justify-content: center;
 }
-/* Responsive para pantallas pequeñas */
-@media (max-width: 768px) {
-    .game-canvas {
-        width: 95vw;
-        height: calc(95vw * 0.75);
-    }
-}
-
-/* Footer */
-.site-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    background-color: var(--color-primario);
-    color: white;
-    font-family: "Poppins", sans-serif;
-}
-
-.footer-text {
-    margin: 4px;
-    text-align: center;
-    color: var(--color-text);
-    font-size: 1.6rem; /* 16px */
-}
-
-.footer-link {
-    color: var(--color-secundario);
-    text-decoration: underline;
-}
-
-.footer-link:hover {
-    color: white;
-}
-
-/* Video Background */
-.video-fondo {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: -1;
-}
-
-.video-fondo video {
-    min-width: 100%;
-    min-height: 100%;
-    object-fit: cover;
-}
-
+/* Botón de reinicio */
 /* Input Styles */
 input {
     display: none;
