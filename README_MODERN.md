@@ -1,4 +1,4 @@
-# 🎮 Vartar - Juego Multijugador Moderno
+# 🎮 Vartar - Juego Multijugador
 
 Un juego multijugador en tiempo real desarrollado con HTML5 Canvas, JavaScript vanilla y tecnologías web modernas. Los jugadores pueden elegir personajes con poderes elementales y batallar en un mapa interactivo.
 
@@ -95,28 +95,7 @@ npm run optimize:assets
 npm run sass:watch
 ```
 
-## 🏗️ Arquitectura del Proyecto
 
-```
-vartar/
-├── public/
-│   ├── index.html           # HTML principal
-│   ├── CSS/
-│   │   ├── styles.css       # Estilos base
-│   │   ├── modern-styles.css # Estilos modernos con Tailwind
-│   │   └── scss/            # Archivos SCSS
-│   ├── js/
-│   │   ├── main.js          # Punto de entrada
-│   │   ├── game.js          # Lógica principal del juego
-│   │   ├── character.js     # Sistema de personajes
-│   │   ├── virtualJoystick.js # Controles móviles
-│   │   ├── gameUI.js        # Interfaz moderna
-│   │   ├── visualEffects.js # Sistema de efectos
-│   │   └── config.js        # Configuración global
-│   └── assets/              # Recursos multimedia
-├── server files...          # Archivos del servidor
-└── config files...          # Configuración del proyecto
-```
 
 ## 🎮 Cómo Jugar
 
@@ -127,10 +106,7 @@ vartar/
 5. **Ganar**: Derrota a tus oponentes usando ventajas elementales
 
 ### Ventajas Elementales
-- 🔥 **Fuego** vence a 🌍 **Tierra**
-- 💧 **Agua** vence a 🔥 **Fuego**  
-- 🌍 **Tierra** vence a 💨 **Aire**
-- 💨 **Aire** vence a 💧 **Agua**
+
 
 ## 🎨 Personalización
 
@@ -231,15 +207,12 @@ Este proyecto está bajo la Licencia ISC. Ver el archivo `LICENSE` para más det
 ## 👨‍💻 Autor
 
 **NikosophosCode**
-- Website: [https://nikosophoscode.github.io/](https://nikosophoscode.github.io/)
-- Email: nikosophoscode@gmail.com
+
 - GitHub: [@NikosophosCode](https://github.com/NikosophosCode)
 
 ## 🙏 Agradecimientos
 
-- Comunidad de desarrolladores web por las herramientas increíbles
-- Inspiración en juegos clásicos de batalla multijugador
-- Feedback de testers beta
+
 
 ---
 

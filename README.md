@@ -19,6 +19,28 @@
 4. **¡Combate!** - Elige 6 poderes y enfrenta a tu oponente
 5. **Gana la batalla** - El que gane más rondas es el vencedor
 
+## 🎮 Personajes y Poderes
+
+### Personajes Disponibles
+- **Sinji** - Especialista en Tierra 🌎
+- **Kiira** - Maestra del Agua 💧  
+- **Kimo** - Controlador de Fuego 🔥
+- **Vera** - Dominadora del Aire ☁
+- **Narobi** - Guerrera de Fuego 🔥
+- **Nutso** - Guardian de la Tierra 🌎
+- **Limbre** - Espíritu del Aire ☁
+- **Iroki** - Sage del Agua 💧
+
+### Sistema de Combate
+Cada personaje tiene 6 poderes: 3 de su elemento principal + 1 de cada otro elemento.
+
+**Ventajas elementales:**
+
+- 🔥 **Fuego** vence a 🌍 **Tierra**
+- 💧 **Agua** vence a 🔥 **Fuego**  
+- 🌍 **Tierra** vence a 💨 **Aire**
+- 💨 **Aire** vence a 💧 **Agua**
+
 ## 🔧 Tecnologías Utilizadas
 
 ### Frontend
@@ -32,7 +54,29 @@
 - **Express.js** - Framework web
 - **CORS** - Soporte para múltiples orígenes
 
-### Arquitectura
+## 🏗️ Arquitectura del Proyecto
+
+```
+vartar/
+├── public/
+│   ├── index.html           # HTML principal
+│   ├── CSS/
+│   │   ├── styles.css       # Estilos base
+│   │   ├── modern-styles.css # Estilos modernos con Tailwind
+│   │   └── scss/            # Archivos SCSS
+│   ├── js/
+│   │   ├── main.js          # Punto de entrada
+│   │   ├── game.js          # Lógica principal del juego
+│   │   ├── character.js     # Sistema de personajes
+│   │   ├── virtualJoystick.js # Controles móviles
+│   │   ├── gameUI.js        # Interfaz moderna
+│   │   ├── visualEffects.js # Sistema de efectos
+│   │   └── config.js        # Configuración global
+│   └── assets/              # Recursos multimedia
+├── server files...          # Archivos del servidor
+└── config files...          # Configuración del proyecto
+```
+
 - **Sistema de Colisiones V2** - Detección bilateral precisa
 - **Interpolación de movimiento** - Movimiento suave de enemigos
 - **Cache inteligente** - Optimización de rendimiento
@@ -92,26 +136,6 @@ El juego incluye un sistema de colisiones bilateral completamente rediseñado:
 
 Ver documentación completa: [SISTEMA_COLISIONES_V2.md](./SISTEMA_COLISIONES_V2.md)
 
-## 🎮 Personajes y Poderes
-
-### Personajes Disponibles
-- **Sinji** - Especialista en Tierra 🌎
-- **Kiira** - Maestra del Agua 💧  
-- **Kimo** - Controlador de Fuego 🔥
-- **Vera** - Dominadora del Aire ☁
-- **Narobi** - Guerrera de Fuego 🔥
-- **Nutso** - Guardian de la Tierra 🌎
-- **Limbre** - Espíritu del Aire ☁
-- **Iroki** - Sage del Agua 💧
-
-### Sistema de Combate
-Cada personaje tiene 6 poderes: 3 de su elemento principal + 1 de cada otro elemento.
-
-**Ventajas elementales:**
-- 🔥 Fuego > 🌎 Tierra, ☁ Aire
-- 💧 Agua > 🔥 Fuego, 🌎 Tierra  
-- 🌎 Tierra > ☁ Aire, 💧 Agua
-- ☁ Aire > 💧 Agua, 🔥 Fuego
 
 ## 🛠️ Desarrollo y Testing
 
@@ -174,9 +198,15 @@ Este proyecto está bajo la Licencia MIT. Ver [LICENSE](LICENSE) para más detal
 ## 👤 Autor
 
 **NikosophosCode**
+- Website: [https://nikosophoscode.github.io/](https://nikosophoscode.github.io/)
+- Email: nikosophoscode@gmail.com
 - GitHub: [@NikosophosCode](https://github.com/NikosophosCode)
 
 ## 🎉 Agradecimientos
+
+- Comunidad de desarrolladores web por las herramientas increíbles
+- Inspiración en juegos clásicos de batalla multijugador
+- Feedback de testers beta
 
 ¡Gracias por probar Vartar! Este es mi primer juego multijugador y una excelente práctica para mejorar mis habilidades de programación.
 
