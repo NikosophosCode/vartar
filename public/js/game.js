@@ -20,6 +20,11 @@ class Game {
         this.lastNetworkUpdate = 0; // Para throttling de peticiones de red
         this.enemyPositionCache = new Map(); // Cache de posiciones de enemigos
         
+        // Nuevos sistemas modernos
+        this.gameUI = new GameUI();
+        this.visualEffects = null; // Se inicializará con el canvas
+        this.virtualJoystick = null; // Para controles móviles avanzados
+        
         // Sistema de colisiones mejorado V2
         this.collisionSystemV2 = null;
         this.combatState = 'free'; // Estados: 'free', 'collision_detected', 'in_combat'
@@ -75,6 +80,9 @@ class Game {
             
             this.setupMapDimensions();
             this.hideInitialElements();
+            
+            // Inicializar sistemas de efectos visuales
+            this.visualEffects = new VisualEffects(this.canvas);
 
         } catch (error) {
             ErrorHandler.logError(error, 'Game.initializeElements');
@@ -371,13 +379,26 @@ class Game {
     }
 
     initializeMapState() {
-        // Inicializar controles táctiles
+        // Inicializar joystick virtual para móviles
+        if (this.canvas && this.playerCharacter) {
+            this.virtualJoystick = new VirtualJoystick(this.canvas, this.playerCharacter, {
+                size: Config.MOBILE.JOYSTICK.SIZE,
+                deadZone: Config.MOBILE.JOYSTICK.DEAD_ZONE,
+                hapticFeedback: Config.MOBILE.JOYSTICK.HAPTIC_FEEDBACK,
+                autoHide: Config.MOBILE.JOYSTICK.AUTO_HIDE
+            });
+        }
+
+        // Controles táctiles legacy como fallback
         if (this.canvas && this.playerCharacter) {
             this.touchControls = new TouchControls(this.canvas, this.playerCharacter);
         }
 
         // Ocultar botones físicos en dispositivos táctiles
         this.hidePhysicalButtonsOnTouch();
+        
+        // Inicializar HUD del jugador
+        this.updatePlayerHUD();
     }
 
     hidePhysicalButtonsOnTouch() {
@@ -404,6 +425,11 @@ class Game {
         // Actualizar interpolación de enemigos (cada frame para suavidad)
         this.updateEnemyInterpolation();
         
+        // Actualizar efectos visuales
+        if (this.visualEffects) {
+            this.visualEffects.update(16); // Assumiendo ~60fps
+        }
+        
         // Actualizar enemigos desde el servidor (throttled)
         const now = Date.now();
         if (now - this.lastNetworkUpdate > Config.UI.NETWORK_UPDATE_INTERVAL) {
@@ -412,6 +438,16 @@ class Game {
         }
 
         this.drawEnemies();
+
+        // Renderizar efectos visuales
+        if (this.visualEffects) {
+            this.visualEffects.render();
+        }
+        
+        // Renderizar joystick virtual
+        if (this.virtualJoystick) {
+            this.virtualJoystick.draw(this.ctx);
+        }
 
         // Dibujar guías táctiles opcionales (solo durante desarrollo)
         if (this.touchControls && Config.DEBUG?.SHOW_TOUCH_GUIDES) {
@@ -816,6 +852,84 @@ class Game {
         if (this.selectedCharacter) {
             this.selectedCharacter.stop();
         }
+    }
+    
+    /**
+     * Actualizar HUD del jugador con información moderna
+     */
+    updatePlayerHUD() {
+        if (!this.gameUI || !this.selectedCharacter) return;
+        
+        const playerData = {
+            name: this.selectedCharacter.name || 'Jugador',
+            character: this.selectedCharacter.name,
+            lives: this.selectedCharacter.lives || 100
+        };
+        
+        this.gameUI.updatePlayerHUD(playerData);
+    }
+    
+    /**
+     * Manejar efectos visuales de colisión
+     */
+    handleCollisionEffects(enemy, position) {
+        if (!this.visualEffects) return;
+        
+        const collisionX = (this.playerCharacter.position.x + enemy.x) / 2;
+        const collisionY = (this.playerCharacter.position.y + enemy.y) / 2;
+        
+        // Efecto de explosión en el punto de colisión
+        this.visualEffects.createExplosion(collisionX, collisionY, 'collision');
+        
+        // Texto flotante
+        this.visualEffects.createFloatingText(collisionX, collisionY - 30, '¡COMBATE!', {
+            color: '#ef4444',
+            fontSize: 20,
+            velocity: { x: 0, y: -1 }
+        });
+        
+        // Notificación UI
+        this.gameUI.showNotification(`¡Combate iniciado con ${enemy.name || enemy.id}!`, 'warning');
+    }
+    
+    /**
+     * Efectos de movimiento del jugador
+     */
+    handleMovementEffects() {
+        if (!this.visualEffects || !this.playerCharacter) return;
+        
+        const { x, y } = this.playerCharacter.position;
+        const { x: vx, y: vy } = this.playerCharacter.velocity;
+        
+        // Solo crear efectos si hay movimiento significativo
+        if (Math.abs(vx) > 1 || Math.abs(vy) > 1) {
+            this.visualEffects.createMovementTrail(x, y, { x: vx, y: vy });
+        }
+    }
+    
+    /**
+     * Mostrar mensaje de victoria/derrota con efectos
+     */
+    showGameResult(result, message) {
+        if (!this.visualEffects || !this.gameUI) return;
+        
+        const centerX = this.canvas.width / 2;
+        const centerY = this.canvas.height / 2;
+        
+        if (result === 'victory') {
+            this.visualEffects.createExplosion(centerX, centerY, 'powerup');
+            this.gameUI.showNotification('¡VICTORIA!', 'success', 5000);
+        } else {
+            this.visualEffects.createExplosion(centerX, centerY, 'explosion');
+            this.gameUI.showNotification('Derrota...', 'error', 5000);
+        }
+        
+        this.visualEffects.createFloatingText(centerX, centerY, message, {
+            color: result === 'victory' ? '#22c55e' : '#ef4444',
+            fontSize: 32,
+            velocity: { x: 0, y: -0.5 },
+            duration: 120
+        });
     }
 
     processCombat() {
