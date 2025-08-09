@@ -579,7 +579,8 @@ class Game {
             
             // Si tenemos collision system V2, sincronizar su estado
             if (this.collisionSystemV2) {
-                this.collisionSystemV2.state = 'confirming';
+                // Ajuste: el estado 'confirming' ya no existe en el sistema simplificado.
+                this.collisionSystemV2.state = 'requesting';
                 this.collisionSystemV2.collisionTarget = collidingEnemy;
             }
             
@@ -615,7 +616,7 @@ class Game {
         if (this.collisionSystemV2) {
             const systemStateMapping = {
                 'libre': 'idle',
-                'colisionando': 'confirming',
+                'colisionando': 'requesting', // antes 'confirming' en versión anterior
                 'en_combate': 'in_combat'
             };
             
