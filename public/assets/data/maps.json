@@ -1,0 +1,24 @@
+[
+  {
+    "id": "vartar-arena",
+    "name": "Vartar Arena",
+    "width": 1600,
+    "height": 1200,
+    "spawnPoints": [
+      { "x": 200, "y": 200 },
+      { "x": 1400, "y": 200 },
+      { "x": 800, "y": 600 },
+      { "x": 200, "y": 1000 },
+      { "x": 1400, "y": 1000 }
+    ],
+    "obstacles": [
+      { "x": 400, "y": 300, "width": 100, "height": 100 },
+      { "x": 1100, "y": 300, "width": 100, "height": 100 },
+      { "x": 750, "y": 800, "width": 150, "height": 80 }
+    ],
+    "safeZones": [
+      { "x": 0, "y": 0, "width": 200, "height": 1200 },
+      { "x": 1400, "y": 0, "width": 200, "height": 1200 }
+    ]
+  }
+]

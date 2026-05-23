@@ -1,0 +1,98 @@
+[
+  {
+    "id": "sinji",
+    "name": "Sinji",
+    "element": "FUEGO",
+    "description": "Maestro del arte marcial ancestral",
+    "stats": {
+      "attack": 85,
+      "defense": 70,
+      "speed": 80
+    },
+    "sprite": "sinji"
+  },
+  {
+    "id": "aqualis",
+    "name": "Aqualis",
+    "element": "AGUA",
+    "description": "Guerrero acuático del océano profundo",
+    "stats": {
+      "attack": 75,
+      "defense": 85,
+      "speed": 75
+    },
+    "sprite": "aqualis"
+  },
+  {
+    "id": "terra",
+    "name": "Terra",
+    "element": "TIERRA",
+    "description": "Guardián de las montañas eternas",
+    "stats": {
+      "attack": 80,
+      "defense": 90,
+      "speed": 60
+    },
+    "sprite": "terra"
+  },
+  {
+    "id": "ventus",
+    "name": "Ventus",
+    "element": "AIRE",
+    "description": "Espíritu del viento silencioso",
+    "stats": {
+      "attack": 70,
+      "defense": 65,
+      "speed": 95
+    },
+    "sprite": "ventus"
+  },
+  {
+    "id": "pyra",
+    "name": "Pyra",
+    "element": "FUEGO",
+    "description": "Ama de las llamas devoradoras",
+    "stats": {
+      "attack": 90,
+      "defense": 60,
+      "speed": 85
+    },
+    "sprite": "pyra"
+  },
+  {
+    "id": "glacius",
+    "name": "Glacius",
+    "element": "AGUA",
+    "description": "Señor del hielo implacable",
+    "stats": {
+      "attack": 80,
+      "defense": 80,
+      "speed": 70
+    },
+    "sprite": "glacius"
+  },
+  {
+    "id": "petra",
+    "name": "Petra",
+    "element": "TIERRA",
+    "description": "Protectora de los valles cristalinos",
+    "stats": {
+      "attack": 70,
+      "defense": 95,
+      "speed": 55
+    },
+    "sprite": "petra"
+  },
+  {
+    "id": "tempest",
+    "name": "Tempest",
+    "element": "AIRE",
+    "description": "Tempestad viviente de destrucción",
+    "stats": {
+      "attack": 85,
+      "defense": 55,
+      "speed": 100
+    },
+    "sprite": "tempest"
+  }
+]

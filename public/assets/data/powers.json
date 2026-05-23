@@ -1,0 +1,94 @@
+{
+  "elements": {
+    "FUEGO": {
+      "emoji": "🔥",
+      "color": "#ff6b35",
+      "advantages": ["TIERRA"],
+      "disadvantages": ["AGUA"]
+    },
+    "AGUA": {
+      "emoji": "💧",
+      "color": "#3b82f6",
+      "advantages": ["FUEGO"],
+      "disadvantages": ["TIERRA"]
+    },
+    "TIERRA": {
+      "emoji": "🌍",
+      "color": "#84cc16",
+      "advantages": ["AIRE"],
+      "disadvantages": ["AGUA"]
+    },
+    "AIRE": {
+      "emoji": "☁️",
+      "color": "#06b6d4",
+      "advantages": ["AGUA"],
+      "disadvantages": ["TIERRA"]
+    }
+  },
+  "powers": [
+    {
+      "id": "fireball",
+      "name": "Fireball",
+      "element": "FUEGO",
+      "emoji": "🔥",
+      "damage": 20,
+      "criticalChance": 0.15
+    },
+    {
+      "id": "inferno",
+      "name": "Inferno",
+      "element": "FUEGO",
+      "emoji": "🔥",
+      "damage": 35,
+      "criticalChance": 0.1
+    },
+    {
+      "id": "waterSlash",
+      "name": "Water Slash",
+      "element": "AGUA",
+      "emoji": "💧",
+      "damage": 18,
+      "criticalChance": 0.2
+    },
+    {
+      "id": "tidalWave",
+      "name": "Tidal Wave",
+      "element": "AGUA",
+      "emoji": "💧",
+      "damage": 30,
+      "criticalChance": 0.12
+    },
+    {
+      "id": "rockThrow",
+      "name": "Rock Throw",
+      "element": "TIERRA",
+      "emoji": "🪨",
+      "damage": 22,
+      "criticalChance": 0.18
+    },
+    {
+      "id": "earthquake",
+      "name": "Earthquake",
+      "element": "TIERRA",
+      "emoji": "🌋",
+      "damage": 32,
+      "criticalChance": 0.08
+    },
+    {
+      "id": "windSlash",
+      "name": "Wind Slash",
+      "element": "AIRE",
+      "emoji": "🌪️",
+      "damage": 16,
+      "criticalChance": 0.25
+    },
+    {
+      "id": "tornado",
+      "name": "Tornado",
+      "element": "AIRE",
+      "emoji": "🌀",
+      "damage": 28,
+      "criticalChance": 0.15
+    }
+  ]
+}

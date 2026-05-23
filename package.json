@@ -1,19 +1,26 @@
 {
   "name": "vartar",
   "version": "1.0.0",
-  "main": "index.js",
-  "description": "Juego multijugador en tiempo real con HTML5 Canvas",
+  "description": "Juego multijugador en tiempo real con Phaser 3",
+  "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "author": "NikosophosCode",
   "license": "ISC",
   "dependencies": {
+    "compression": "^1.7.4",
     "cors": "^2.8.5",
+    "eventemitter3": "^5.0.4",
     "express": "^4.18.2",
     "helmet": "^7.1.0",
-    "compression": "^1.7.4"
+    "phaser": "^3.70.0",
+    "socket.io-client": "^4.7.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vite": "^5.4.2"
   }
 }
