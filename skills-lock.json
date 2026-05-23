@@ -6,6 +6,12 @@
       "sourceType": "github",
       "skillPath": "skills/phaser/SKILL.md",
       "computedHash": "2e8bd40c41fc4b367678e86f02b0eb4ba7aaa1770ad42cfe30b7ce74c4913364"
+    },
+    "vite": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "skillPath": "skills/vite/SKILL.md",
+      "computedHash": "867ff66238f3152e9c494339ad08dc432dd0df5bcf5cc7a00b61a72b580eb908"
     }
   }
 }
